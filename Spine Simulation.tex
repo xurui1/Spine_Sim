@@ -176,14 +176,23 @@ We are also interested in the location of the maximum RMS intensity for differen
 \begin{figure}[!h] \label{RMS_Max}
 \centering
 \includegraphics[scale=0.65]{Max_RMS_pressure_coords}
-\caption{The Maximum RMS pressure for 200kHz$\leq f_1 \leq$300kHz.} 
+\caption{The Maximum RMS pressure location for 200kHz$\leq f_1 \leq$300kHz.} 
 \end{figure}
 
-There does not appear to be any pattern in the location of the maximum RMS pressure coordinates. In the x-dimension, the maxima are confined to within three computational grid points, approximately +4mm away from the focal point of the independent transducers. In the y-dimension, the maxima remain closely clustered around the focal point.
-
-
+There does not appear to be any pattern in the location of the maximum RMS pressure coordinates. In the x-dimension, the maxima are confined to within three computational grid points, approximately +4mm away from the focal point of the independent transducers. In the y-dimension, the maxima remain closely clustered around the focal point. Generally, the maximum RMS pressure is much more highly clustered than the FWHM centre.
 
 \section{Adding Inclusions to the Simulation}
+
+The next step to increasing the complexity of the simulation is to add an inclusion near the focal point of the two transducers. The acoustic properties that k-wave includes are the sound speed within the medium, the ambient density distribution within the medium, a nonlinearity parameter, the power law absorption prefactor $\alpha_0$, and the power law absorption exponent $y$, where the power law is:
+\begin{equation}
+\alpha(f) = \alpha_0 \omega^y, 	\quad \omega = 2 \pi f 
+\end{equation}
+
+The simulation package, k-wave, doesn't include all non-linear effects, but does include two additional non-linear terms to attempt to account for all non-linear behaviour. These terms are defined as BonA in k-wave, where A and B are the first and second terms in the Taylor series expansion of the relation between the materials pressure and density.
+
+All of these variables can be set as spatially heterogeneous in k-wave. In order to make an accurate simulation, I will need the acoustic properties of the medium I'll be simulating - namely water, bone, fat, nerve tissue, etc. Some of these are available in "Physical Properties of Tissue", a reference book by Francis A. Duck, and referenced by Chris Diederich in his interstitial spine simulation work.
+
+
 
 \subsection{Results from Cadavers}
 
