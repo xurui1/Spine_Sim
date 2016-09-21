@@ -115,7 +115,7 @@ for point_index = 1:length(py)
 end
 
 % loop through the remaining points using the midpoint circle algorithm
-while ( x < y - 1)
+while ( x < y - 1 )
     
     x = x + 1;
     if ( d < 0 ) 
@@ -134,9 +134,7 @@ while ( x < y - 1)
     for point_index = 1:length(py)
         
         % check whether the point is within the arc made by arc_angle
-        
-        angle_val = atan2(py(point_index) - cx, px(point_index) - cy) + pi;
-        if (angle_val <= arc_angle)
+        if (atan2(py(point_index) - cx, px(point_index) - cy) + pi) <= arc_angle
             circle(py(point_index), px(point_index)) = MAGNITUDE;
         end
     end

@@ -1,6 +1,5 @@
-function mediadisc = makedensityDisc(Nx, Ny, cx, cy, radius,density,density_disk, plot_disc)
-%MAKEDISC   Create a binary map of a filled disc within a 2D grid, modified
-%           such that the media within the disk has a different density
+function sheardisc = makeshearDisc(Nx, Ny, cx, cy, radius,vsound,vsound_disk, plot_disc)
+%MAKEDISC   Create a binary map of a filled disc within a 2D grid.
 %
 % DESCRIPTION:
 %       makeDisc creates a binary map of a filled disc within a
@@ -77,21 +76,21 @@ if cx < 1 || cx > Nx || cy < 1 || cy > Ny
 end
 
 % define literals
-MAGNITUDE = density_disk;
+MAGNITUDE = vsound_disk;
 
 % create empty matrix
-mediadisc = density*ones(Nx, Ny);
+sheardisk = vsound*ones(Nx, Ny);
 
 % define pixel map
 r = makePixelMap(Nx, Ny, 'Shift', [0 0]);
 
 % create disc
-mediadisc(r < radius) = MAGNITUDE;
+sheardisc(r < radius) = MAGNITUDE;
 
 % shift centre
 cx = round(cx) - ceil(Nx/2);
 cy = round(cy) - ceil(Ny/2);
-mediadisc = circshift(mediadisc, [cx cy]);
+sheardisc = circshift(sheardisc, [cx cy]);
 
 % create the figure
 if plot_disc

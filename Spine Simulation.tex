@@ -4,6 +4,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{cite}
 \graphicspath{ {./images/} }
 
 \title{US Spine Simulation and Results}
@@ -190,14 +191,16 @@ The next step to increasing the complexity of the simulation is to add an inclus
 
 The simulation package, k-wave, doesn't include all non-linear effects, but does include two additional non-linear terms to attempt to account for all non-linear behaviour. These terms are defined as BonA in k-wave, where A and B are the first and second terms in the Taylor series expansion of the relation between the materials pressure and density.
 
-All of these variables can be set as spatially heterogeneous in k-wave. In order to make an accurate simulation, I will need the acoustic properties of the medium I'll be simulating - namely water, bone, fat, nerve tissue, etc. Some of these are available in "Physical Properties of Tissue", a reference book by Francis A. Duck, and referenced by Chris Diederich in his interstitial spine simulation work.
+All of these variables can be set as spatially heterogeneous in k-wave. In order to make an accurate simulation, I will need the acoustic properties of the medium I'll be simulating - namely water, bone, fat, nerve tissue, etc. Some of these are available in "Physical Properties of Tissue", a reference book by Francis A. Duck, and referenced by Chris Diederich in his interstitial spine simulation work \cite{duck1990physical}.
+
+For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily for me, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. 
+
+\newpage
+\bibliography{lit}{}
+\bibliographystyle{ieeetr}
 
 
 
-\subsection{Results from Cadavers}
 
-\subsection{Acoustic Properties}
-
-\subsection{Simulation}
 
 \end{document}

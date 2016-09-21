@@ -18,7 +18,7 @@ dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
 
 % define the properties of the propagation medium
-%medium.sound_speed = 1500;  % [m/s] ok for homogeneous medium
+% medium.sound_speed = 1500;  % [m/s] ok for homogeneous medium
 % define the properties of the propagation medium    
 medium.sound_speed = makemediaDisk(Nx,Ny,236,236,50,1500,4080);         % [m/s]
 medium.density = makedensityDisc(Nx,Ny,236,236,50,1000,500);         % [m/s]
