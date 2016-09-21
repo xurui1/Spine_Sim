@@ -195,6 +195,9 @@ All of these variables can be set as spatially heterogeneous in k-wave. In order
 
 For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily for me, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. 
 
+In order to understand the effect of shear wave propagation in a bone, I wrote another simulation based on the Snell's law example. In this simulation I use an inclusion centred at the focal point of the two transducers. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be ok.
+
+
 \newpage
 \bibliography{lit}{}
 \bibliographystyle{ieeetr}

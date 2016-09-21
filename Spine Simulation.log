@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  21 SEP 2016 11:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  21 SEP 2016 11:47
 entering extended mode
 **"./Spine Simulation.tex"
 ("Spine Simulation.tex"
@@ -905,9 +905,9 @@ Overfull \hbox (20.36067pt too wide) in paragraph at lines 179--180
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[14 <./images/FWHM_freq.jpg>] [15 <./images/FWHM_centre.jpg>]
-("Spine Simulation.bbl") [16 <./images/Max_RMS_pressure_coords.jpg>]
-("Spine Simulation.aux") ) 
+[14 <./images/FWHM_freq.jpg>] [15 <./images/FWHM_centre.jpg>] [16 <./images/Max
+_RMS_pressure_coords.jpg>] ("Spine Simulation.bbl") [17] ("Spine Simulation.aux
+") ) 
 Here is how much of TeX's memory you used:
  2909 strings out of 493334
  39057 string characters out of 3131088
@@ -915,23 +915,23 @@ Here is how much of TeX's memory you used:
  6366 multiletter control sequences out of 15000+200000
  11541 words of font info for 45 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,7n,25p,667b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Rui/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Rui/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/
-Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
-<C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmr10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr12.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr17.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Rui/AppData/Local/Programs/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Rui/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Spine Simulation.pdf" (16 pages, 796149 bytes).
+ 40i,7n,25p,788b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmbx12.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmex10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Rui/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Rui/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Ru
+i/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
+:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+r17.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmr7.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on "Spine Simulation.pdf" (17 pages, 798340 bytes).
 PDF statistics:
- 125 PDF objects out of 1000 (max. 8388607)
+ 128 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  126 words of extra memory for PDF output out of 10000 (max. 10000000)
 
