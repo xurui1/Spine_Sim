@@ -1,4 +1,6 @@
-%Simulating two transducers, a circular object, and accounting for shear waves
+%Simulating two transducers, an object, and accounting for shear waves
+% Shear Waves And Critical Angle Reflection Example
+
 
 clear all;
 
@@ -6,6 +8,8 @@ clear all;
 % SIMULATION PARAMETERS
 % =========================================================================
 
+% change scale to 2 to reproduce the higher resolution figures used in the
+% help file
 scale = 1;
 
 % create the computational grid
@@ -28,20 +32,30 @@ t_end = 12e-5;
 kgrid.t_array= makeTime(kgrid, 1580, cfl, t_end);
 
 % define two curved transducer elements
-source_mask =  makedoubleSemiCircle(Nx, Ny,round((Nx+40)/2),round(Ny/2),...
-               round(Nx/2), pi/12, pi/3+pi/12,round((Nx+40)/2),round(Ny/2),...
-               round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
+source.p_mask = makedoubleSemiCircle(Nx, Ny,round((Nx+40)/2),round(Ny/2),...
+    round(Nx/2), pi/12, pi/3+pi/12,round((Nx+40)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
 
-% define the source properties and define constant varying sinusoidal sources
+
+% define the source properties
+% define constant varying sinusoidal sources
 source_freq1 = 0.25e6;       % [Hz]
 source_mag1 = 0.5;           % [Pa]
 source_mag2 = 0.5;           % [Pa]
 
 % define changing source (source 2) 
-initial = 0.2e6;            % [Hz]
-final = 0.3e6;               % [Hz]
+initial = 0.25e6;            % [Hz]
+final = 0.25e6;               % [Hz]
 step_size = 0.01e6;          % [Hz]
 Num_steps = (final - initial)/step_size;
+
+% define the sensor to record the maximum particle velocity everywhere
+sensor.record = {'u_max_all'};
+
+% set the input arguments
+%input_args = {'PMLSize', PML_size, 'PMLAlpha', 2, 'PlotPML', false, ...
+%    'PMLInside', false, 'PlotScale', [-1, 1]*source_strength, ...
+%    'DisplayMask', 'off', 'DataCast', 'single'};
+
 
 step_tracker = 1;
 
@@ -58,12 +72,8 @@ for source_freq2 = initial:step_size:final
     % =========================================================================
     % FLUID SIMULATION
     % =========================================================================
-    %define source 
-    clear source;
-    source.p_mask = source_mask;
 
     % define the medium properties
-    clear medium;
     medium.sound_speed = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1580,2820);         % [m/s]
     medium.density = makedensityDisc(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1000,1800);         % [kg/m^3]
     medium.alpha_coeff = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0.57,9);   % [dB/(MHz^y cm)]
@@ -97,7 +107,6 @@ for source_freq2 = initial:step_size:final
 
     % create a sensor mask covering the entire computational domain using the
     % opposing corners of a rectangle
-    clear sensor;
     sensor.mask = [1, 1, Nx, Ny].';
 
     % set the record mode capture the final wave-field and the statistics at
@@ -198,6 +207,8 @@ for source_freq2 = initial:step_size:final
 
     % assign the source for the elastic simulation
     clear source
+    source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx+40)/2),round(Ny/2),...
+    round(Nx/2), pi/12, pi/3+pi/12,round((Nx+40)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
     source.s_mask = source_mask;
 
      % create a sensor mask covering the entire computational domain using the

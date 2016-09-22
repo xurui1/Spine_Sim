@@ -1,6 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{float}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -154,7 +155,7 @@ d = \frac{1}{N}  \sum_{i=1}^N \sqrt{ (x_{HM_i} - x_{HMc})^2 + (y_{HM_i} - y_{HMc
 \end{equation}
 The FWHM is then approximately equal to two times the average distance between an HM point and the centre of the HM point distribution. For HM distributions that are highly non-Gaussian, then there is little purpose in calling it the FWHM - it's simply the average width of the half-maximum RMS pressure profile. Despite this, I'll continue calling it FWHM for the time being. The FWHM is shown for 200kHz$\leq f_1 \leq$ 300kHz in Figure \ref{FWHM_freq}.
 
-\begin{figure}[!h]\label{FWHM_freq}
+\begin{figure}[H]\label{FWHM_freq}
 \centering
 \includegraphics[scale=0.6]{FWHM_freq}
 \caption{The FWHM of the RMS pressure distribution for 200kHz$\leq f_1 \leq$ 300kHz, $f_2 = 250$kHz.}
@@ -164,7 +165,7 @@ The FWHM is then approximately equal to two times the average distance between a
 \subsection{Centre of HM profile}
 
 I've included this for curiosity's sake. Here I plot the centre of the FWHM profile, for 200kHz$\leq f_1 \leq$ 300kHz.
-\begin{figure}[!h]\label{FWHM_centre}
+\begin{figure}[H]\label{FWHM_centre}
 \centering
 \includegraphics[scale=0.6]{FWHM_centre}
 \caption{The coordinates of the centre of the FWHM profile of the RMS pressure distribution for 200kHz$\leq f_1 \leq$ 300kHz, $f_2 = 250$kHz.}
@@ -174,7 +175,7 @@ I've included this for curiosity's sake. Here I plot the centre of the FWHM prof
 
 We are also interested in the location of the maximum RMS intensity for different frequencies. These are shown in the following Figure \ref{RMS_Max}. 
 
-\begin{figure}[!h] \label{RMS_Max}
+\begin{figure}[H] \label{RMS_Max}
 \centering
 \includegraphics[scale=0.65]{Max_RMS_pressure_coords}
 \caption{The Maximum RMS pressure location for 200kHz$\leq f_1 \leq$300kHz.} 
@@ -196,7 +197,7 @@ All of these variables can be set as spatially heterogeneous in k-wave. In order
 For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily for me, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. 
 
 In order to understand the effect of shear wave propagation in a bone, I wrote another simulation based on the Snell's law example. In this simulation I use an inclusion centred near the focal point of the two transducers such that the ultrasound waves intersect at the proximal side of the inclusion. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be a reasonable input. The setup for this simulation is shown in Figure \ref{setup2}
-\begin{figure}[!h] \ref{setup2}
+\begin{figure}[H] \ref{setup2}
 \centering
 \includegraphics[scale=0.5]{setup2}
 \caption{An inclusion is added to the system, with the same acoustic properties as those used by \cite{treeby2015contribution}.}
@@ -204,7 +205,7 @@ In order to understand the effect of shear wave propagation in a bone, I wrote a
 
 The code is set up to run the fluid simulation first, and then run the elastic simulation after to allow for comparison between the two models. The results of the simulation are shown in Figure \ref{elasticvsfluid_heatmap}. In this figure, the quantity plotted is the logarithm of squared particle velocity, normalized by the maximum squared particle velocity $\vert \textbf{u} \cdot \textbf{u} \vert / \vert  \textbf{u}_{max} \cdot \textbf{u}_{max}\vert $. For this first test case, the frequencies of the two transducers are both 0.25MHz. 
 
-\begin{figure}[!h]\label{elasticvsfluid_heatmap}
+\begin{figure}[H]\label{elasticvsfluid_heatmap}
 \centering
 \includegraphics[scale=0.7]{circle_elasticvsfluid_heatmap}
 \caption{In this figure, the logarithm of normalized, squared particle velocity is plotted for the fluid simulation and the elastic simulation. This quantity is proportional to heat deposition, where the proportionality constants are the speed of sound in the medium, the medium density, and the absorption coefficient of the medium. This quantity, thermal deposition, is important for thermal ultrasound applications.}
@@ -212,9 +213,56 @@ The code is set up to run the fluid simulation first, and then run the elastic s
 
 In the following figure (Figure \ref{HM_elasticvsfluid}) , the half-maximum contours of the RMS pressure profiles are outlined for both fluid and elastic simulations. It is somewhat difficult to see the HM lines in the figure because the pressure profiles are highly peaked. 
 
-\begin{figure}[!h]\label{HM_elasticvsfluid}
+\begin{figure}[H]\label{HM_elasticvsfluid}
 \hspace*{-4cm}                                                    
 \includegraphics[scale=0.5]{FWHM_elasticvsfluid}
+\end{figure}
+
+\subsection{Half-Maximum Profiles}
+
+\begin{figure}[H]\label{comp_200kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.55]{comp_200kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_210kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_210kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_220kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_220kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_230kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_230kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_240kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_240kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_250kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_250kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_260kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_260kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_270kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_270kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_280kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_280kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_290kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_290kHz}
+\end{figure}
+\begin{figure}[H]\label{comp_300kHz}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.6]{comp_300kHz}
 \end{figure}
 
 
