@@ -21,9 +21,9 @@ This document will outline my ultrasound code and results. I have constructed a 
 
 \section{System 1: Homogeneous Medium, Two Elements, Two Frequencies}
 
-The first system I created was a system of two curved transducers, each with a radius of curvature of 50mm, and each subtending $\pi/2$ radians. The two transducers are driven at frequencies $f_1$ and $f_2$. The focal point of the two transducers are the same. I create the transducers by defining source points at a 50mm radius for $\pi/12 \leq \Theta_1 \leq 5\pi/12$ and $7\pi/12 \leq \Theta_2 \leq 11 \pi/12$. The system setup is shown in the following figure.
+The first system I created was a system of two curved transducers, each with a radius of curvature of 50mm, and each subtending $\pi/2$ radians. The two transducers are driven at frequencies $f_1$ and $f_2$. The focal point of the two transducers are the same. I create the transducers by defining source points at a 50mm radius for $\pi/12 \leq \Theta_1 \leq 5\pi/12$ and $7\pi/12 \leq \Theta_2 \leq 11 \pi/12$. The system setup is shown in Figure \ref{setup1}.
 
-\begin{figure}[!h]
+\begin{figure}[!h]\label{setup1}
 \centering
 \includegraphics[scale=0.5]{setup1.png}
 \centering
@@ -35,107 +35,107 @@ The first test was to vary the frequency $f_1$ of the right hand side transducer
 
 We are interested in the pressure profile of the system near the focal point, for different frequencies $0.15 \text{MHz} \leq f_1 \leq 0.35 \text{MHz}$, tested in increments of 10kHz. The following figures show the 2D root-mean-square pressure profiles. The points of half-maximum pressure are outlined in black.
 
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f150kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f150kHz}
 \caption{RMS pressure profile for $f_1 = 0.15$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f160kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f160kHz}
 \caption{RMS pressure profile for $f_1 = 0.16$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f170kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f170kHz}
 \caption{RMS pressure profile for $f_1 = 0.17$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f180kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f180kHz}
 \caption{RMS pressure profile for $f_1 = 0.18$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f190kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f190kHz}
 \caption{RMS pressure profile for $f_1 = 0.19$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f200kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f200kHz}
 \caption{RMS pressure profile for $f_1 = 0.20$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f210kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f210kHz}
 \caption{RMS pressure profile for $f_1 = 0.21$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f220kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f220kHz}
 \caption{RMS pressure profile for $f_1 = 0.22$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f230kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f230kHz}
 \caption{RMS pressure profile for $f_1 = 0.23$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f240kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f240kHz}
 \caption{RMS pressure profile for $f_1 = 0.24$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f250kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f250kHz}
 \caption{RMS pressure profile for $f_1 = 0.25$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f260kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f260kHz}
 \caption{RMS pressure profile for $f_1 = 0.26$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f270kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f270kHz}
 \caption{RMS pressure profile for $f_1 = 0.27$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f280kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f280kHz}
 \caption{RMS pressure profile for $f_1 = 0.28$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f290kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f290kHz}
 \caption{RMS pressure profile for $f_1 = 0.29$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f300kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f300kHz}
 \caption{RMS pressure profile for $f_1 = 0.30$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f310kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f310kHz}
 \caption{RMS pressure profile for $f_1 = 0.31$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f320kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f320kHz}
 \caption{RMS pressure profile for $f_1 = 0.32$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f330kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f330kHz}
 \caption{RMS pressure profile for $f_1 = 0.33$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f340kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f340kHz}
 \caption{RMS pressure profile for $f_1 = 0.34$MHz, $f_2 = 0.25$MHz}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}[!h]\label{f350kHz}
 \hspace*{-5cm}                                                    
 \includegraphics[scale=0.6]{f350kHz}
 \caption{RMS pressure profile for $f_1 = 0.35$MHz, $f_2 = 0.25$MHz}
@@ -164,7 +164,7 @@ The FWHM is then approximately equal to two times the average distance between a
 \subsection{Centre of HM profile}
 
 I've included this for curiosity's sake. Here I plot the centre of the FWHM profile, for 200kHz$\leq f_1 \leq$ 300kHz.
-\begin{figure}[!h]
+\begin{figure}[!h]\label{FWHM_centre}
 \centering
 \includegraphics[scale=0.6]{FWHM_centre}
 \caption{The coordinates of the centre of the FWHM profile of the RMS pressure distribution for 200kHz$\leq f_1 \leq$ 300kHz, $f_2 = 250$kHz.}
@@ -182,7 +182,7 @@ We are also interested in the location of the maximum RMS intensity for differen
 
 There does not appear to be any pattern in the location of the maximum RMS pressure coordinates. In the x-dimension, the maxima are confined to within three computational grid points, approximately +4mm away from the focal point of the independent transducers. In the y-dimension, the maxima remain closely clustered around the focal point. Generally, the maximum RMS pressure is much more highly clustered than the FWHM centre.
 
-\section{Adding Inclusions to the Simulation}
+\section{System 2: Adding Inclusions}
 
 The next step to increasing the complexity of the simulation is to add an inclusion near the focal point of the two transducers. The acoustic properties that k-wave includes are the sound speed within the medium, the ambient density distribution within the medium, a nonlinearity parameter, the power law absorption prefactor $\alpha_0$, and the power law absorption exponent $y$, where the power law is:
 \begin{equation}
@@ -195,7 +195,29 @@ All of these variables can be set as spatially heterogeneous in k-wave. In order
 
 For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily for me, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. 
 
-In order to understand the effect of shear wave propagation in a bone, I wrote another simulation based on the Snell's law example. In this simulation I use an inclusion centred at the focal point of the two transducers. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be ok.
+In order to understand the effect of shear wave propagation in a bone, I wrote another simulation based on the Snell's law example. In this simulation I use an inclusion centred near the focal point of the two transducers such that the ultrasound waves intersect at the proximal side of the inclusion. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be a reasonable input. The setup for this simulation is shown in Figure \ref{setup2}
+\begin{figure}[!h] \ref{setup2}
+\centering
+\includegraphics[scale=0.5]{setup2}
+\caption{An inclusion is added to the system, with the same acoustic properties as those used by \cite{treeby2015contribution}.}
+\end{figure}
+
+The code is set up to run the fluid simulation first, and then run the elastic simulation after to allow for comparison between the two models. The results of the simulation are shown in Figure \ref{elasticvsfluid_heatmap}. In this figure, the quantity plotted is the logarithm of squared particle velocity, normalized by the maximum squared particle velocity $\vert \textbf{u} \cdot \textbf{u} \vert / \vert  \textbf{u}_{max} \cdot \textbf{u}_{max}\vert $. For this first test case, the frequencies of the two transducers are both 0.25MHz. 
+
+\begin{figure}[!h]\label{elasticvsfluid_heatmap}
+\centering
+\includegraphics[scale=0.7]{circle_elasticvsfluid_heatmap}
+\caption{In this figure, the logarithm of normalized, squared particle velocity is plotted for the fluid simulation and the elastic simulation. This quantity is proportional to heat deposition, where the proportionality constants are the speed of sound in the medium, the medium density, and the absorption coefficient of the medium. This quantity, thermal deposition, is important for thermal ultrasound applications.}
+\end{figure}
+
+In the following figure (Figure \ref{HM_elasticvsfluid}) , the half-maximum contours of the RMS pressure profiles are outlined for both fluid and elastic simulations. It is somewhat difficult to see the HM lines in the figure because the pressure profiles are highly peaked. 
+
+\begin{figure}[!h]\label{HM_elasticvsfluid}
+\hspace*{-4cm}                                                    
+\includegraphics[scale=0.5]{FWHM_elasticvsfluid}
+\end{figure}
+
+
 
 
 \newpage

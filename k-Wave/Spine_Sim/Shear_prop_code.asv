@@ -22,7 +22,7 @@ dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
 
 % create x,y coordinates, radius, for inclusion
-x_inclusion = round(Nx/2+20);
+x_inclusion = round(Nx/2);
 y_inclusion = round(Ny/2);
 inc_radius = round(Nx/10);
 
@@ -74,9 +74,9 @@ for source_freq2 = initial:step_size:final
     % =========================================================================
 
     % define the medium properties
-    medium.sound_speed = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1580,2820);         % [m/s]
-    medium.density = makedensityDisc(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1000,1800);         % [kg/m^3]
-    medium.alpha_coeff = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0.57,9);   % [dB/(MHz^y cm)]
+    medium.sound_speed = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),1580,2820);         % [m/s]
+    medium.density = makedensityDisc(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),1000,1800);         % [kg/m^3]
+    medium.alpha_coeff = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),0.57,9);   % [dB/(MHz^y cm)]
     medium.alpha_power = 2;
    
     %Here I define the frequencies of my source points for fluid simulation
@@ -199,11 +199,11 @@ for source_freq2 = initial:step_size:final
     % clear medium properties for the elastic simulation
     clear medium
     % define the medium properties for the elastic simulation
-    medium.sound_speed_compression = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1580,2820);         % [m/s]
-    medium.sound_speed_shear = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0,1500);         % [m/s]
-    medium.density = makedensityDisc(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1000,1800);         % [kg/m^3]
-    medium.alpha_coeff_compression = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0.57,9);   % [dB/(MHz^y cm)]
-    medium.alpha_coeff_shear = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0,20);   % [dB/(MHz^y cm)]
+    medium.sound_speed_compression = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),1580,2820);         % [m/s]
+    medium.sound_speed_shear = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),0,1500);         % [m/s]
+    medium.density = makedensityDisc(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),1000,1800);         % [kg/m^3]
+    medium.alpha_coeff_compression = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),0.57,9);   % [dB/(MHz^y cm)]
+    medium.alpha_coeff_shear = makemediaDisk(Nx,Ny,round(Nx/2),round(Ny/2),round(Nx/10),0,20);   % [dB/(MHz^y cm)]
 
     % assign the source for the elastic simulation
     clear source
