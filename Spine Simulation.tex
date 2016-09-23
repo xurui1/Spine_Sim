@@ -151,7 +151,7 @@ x_{HMc} = \frac{1}{N} \sum_{i=1}^N x_{HM_i} \cdot dx, \quad \quad x_{HMc} = \fra
 \end{equation}
 where $N$ is the number of HM points. We can calculate the average distance $d$ of the HM points from the HM centre using:
 \begin{equation}
-d = \frac{1}{N}  \sum_{i=1}^N \sqrt{ (x_{HM_i} - x_{HMc})^2 + (y_{HM_i} - y_{HMc})^2} \cdot dx
+d = \frac{1}{N}  \sum_{i=1}^N \sqrt{ (x_{HM_i} - x_{HMc})^2 + (y_{HM_i} - y_{HMc})^2} \cdot dx \alpha \beta 
 \end{equation}
 The FWHM is then approximately equal to two times the average distance between an HM point and the centre of the HM point distribution. For HM distributions that are highly non-Gaussian, then there is little purpose in calling it the FWHM - it's simply the average width of the half-maximum RMS pressure profile. Despite this, I'll continue calling it FWHM for the time being. The FWHM is shown for 200kHz$\leq f_1 \leq$ 300kHz in Figure \ref{FWHM_freq}.
 
@@ -194,9 +194,11 @@ The simulation package, k-wave, doesn't include all non-linear effects, but does
 
 All of these variables can be set as spatially heterogeneous in k-wave. In order to make an accurate simulation, I will need the acoustic properties of the medium I'll be simulating - namely water, bone, fat, nerve tissue, etc. Some of these are available in "Physical Properties of Tissue", a reference book by Francis A. Duck, and referenced by Chris Diederich in his interstitial spine simulation work \cite{duck1990physical}.
 
-For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily for me, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. 
+For this simulation, it will also be important to be able to account for shear wave propagation. Simulation results from \cite{treeby2015contribution}. Luckily, there is the option to use an updated file from k-wave called PSTDELASTIC2D that allows for the separation of the compressional and shear components of the ultrasound wave. The details of the algorithm used for the propagation of shear waves in elastic media are described in full in their paper `Modelling Elastic Wave Propagation Using the k-Wave MATLAB Toolbox' \cite{treeby2014modelling}. 
 
-In order to understand the effect of shear wave propagation in a bone, I wrote another simulation based on the Snell's law example. In this simulation I use an inclusion centred near the focal point of the two transducers such that the ultrasound waves intersect at the proximal side of the inclusion. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be a reasonable input. The setup for this simulation is shown in Figure \ref{setup2}
+
+
+In order to understand the effect of shear wave propagation in a bone, I built another simulation, starting from the Snell's law example. In this simulation I use an inclusion centred near the focal point of the two transducers such that the ultrasound waves intersect at the proximal side of the inclusion. I set the radius of the circular inclusion to 1cm, and set the compressional speed of sound to be $v_P = 2820$m/s, the shear speed of sound to $v_S$ = 1500m/s, the compressional alpha factor to $\alpha_P = 9$, and the shear alpha factor to $\alpha_S = 20$. In the rest of the simulation medium then I use $v_P = 1580$m/s, $v_s = 0$m/s, $\alpha_P = 0.57$, and $\alpha_S = 0$. I'm not sure if I should be setting $\alpha_S$ to zero, but since there should not be any shear waves propagating through the non-bone medium, then it should be a reasonable input. The setup for this simulation is shown in Figure \ref{setup2}
 \begin{figure}[H] \ref{setup2}
 \centering
 \includegraphics[scale=0.5]{setup2}
