@@ -12,11 +12,12 @@ scale = 1;
 Nx = 216;           % number of grid points in the x (row) direction
 Ny = 216;           % number of grid points in the y (column) direction
 PML_size = 20;
-x_length = 100e-3; 
+x_length = 100e-3;  %length in x-direction [mm]
 dx = x_length/Nx;    	% grid point spacing in the x direction [m]
 dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
 vsound = 1580; %[m/s]
+plot_type = 1;      % 0-RMS data, 1-max pressure data
 
 % create the time array
 cfl   = 0.1;
@@ -28,7 +29,6 @@ source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx)/2),round(Ny/2),...
     round(Nx/2), pi/12, pi/3+pi/12,round((Nx)/2),round(Ny/2),round(Nx/2),...
     pi/12+pi/2, pi/3+pi/12+pi/2);
 source.p_mask = source_mask;
-
 
 % define the source properties
 source_freq1 = 0.25e6;       % [Hz]
@@ -66,6 +66,8 @@ for source_freq2 = initial:step_size:final
     % =========================================================================
     % FLUID SIMULATION
     % =========================================================================    
+    
+    %Set medium properties for fluid simulation
     for i = 1:Nx
         for j = 1:Ny
             if medium_img(i,j) == 0 
@@ -95,7 +97,7 @@ for source_freq2 = initial:step_size:final
     % set the record mode capture the final wave-field and the statistics at
     % each sensor point 
     sensor.record = {'p_final', 'p_max', 'p_rms','u_max_all'};
-    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2)
+    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2);
     travel_time = max_distance /vsound;
     i = 1;
     while kgrid.t_array(i) < travel_time
@@ -109,17 +111,33 @@ for source_freq2 = initial:step_size:final
     % run the fluid simulation
     sensor_data_fluid = kspaceFirstOrder2D(kgrid, medium, source, sensor, input_args{:});
     
-     %Find location of peak intensity for fluid simulation
-    [freq_data.x_max_fluid(step_tracker),freq_data.y_max_fluid(step_tracker), max_rms_p] =...
-        max_coords(sensor_data_fluid.p_rms,Nx,Ny);
+     if plot_type == 0 %rms plot
+        %Find location of peak RMS intensity for fluid simulation
+        [freq_data.x_max_fluid(step_tracker),freq_data.y_max_fluid(step_tracker), max_rms_p] =...
+            max_coords(sensor_data_fluid.p_rms,Nx,Ny);
+        
+        %Find FWHM (making assumption that the profile is approximately circular)
+        [FWHM_matrix,freq_data.HM_x_max_fluid(step_tracker), freq_data.HM_y_max_fluid(step_tracker),...
+            freq_data.FWHM_fluid(step_tracker)] = FWHM_calc(sensor_data_fluid.p_rms,Nx,Ny,max_rms_p,dx);
+        
+        %Add masks to fluid data for plotting purposes
+        sensor_data_fluid.p_rms(source.p_mask ~= 0) = 1;
+         sensor_data_fluid.p_rms(FWHM_matrix == 1) = 1;
+         
+     elseif plot_type == 1 %max pressure plot
+         %Find location of peak intensity for fluid simulation
+         [freq_data.x_max_fluid(step_tracker),freq_data.y_max_fluid(step_tracker), max_p] =...
+            max_coords(sensor_data_fluid.p_max,Nx,Ny);
+         
+        %Find FWHM (making assumption that the profile is approximately circular)
+        [FWHM_matrix,freq_data.HM_x_max_fluid(step_tracker), freq_data.HM_y_max_fluid(step_tracker),...
+            freq_data.FWHM_fluid(step_tracker)] = FWHM_calc(sensor_data_fluid.p_max,Nx,Ny,max_p,dx);
+        
+        %Add masks to fluid data for plotting purposes
+        sensor_data_fluid.p_max(source.p_mask ~= 0) = 1;
+        sensor_data_fluid.p_max(FWHM_matrix == 1) = 1;
+     end
     
-    %Find FWHM (making assumption that the profile is approximately circular)
-    [FWHM_matrix,freq_data.HM_x_max_fluid(step_tracker), freq_data.HM_y_max_fluid(step_tracker),...
-        freq_data.FWHM_fluid(step_tracker)] = FWHM_calc(sensor_data_fluid.p_rms,Nx,Ny,max_rms_p,dx);
-    
-    %Add masks to fluid data for plotting purposes
-     sensor_data_fluid.p_rms(source.p_mask ~= 0) = 1;
-     sensor_data_fluid.p_rms(FWHM_matrix == 1) = 1;
 
     % =========================================================================
     % ELASTIC SIMULATION
@@ -150,7 +168,7 @@ for source_freq2 = initial:step_size:final
     clear source
     source.s_mask = source_mask;
 
-     % create a sensor mask covering the entire computational domain using the
+    % create a sensor mask covering the entire computational domain using the
     % opposing corners of a rectangle
     clear sensor;
     sensor.mask = [1, 1, Nx, Ny].';
@@ -167,8 +185,8 @@ for source_freq2 = initial:step_size:final
     sensor.record = {'p_final', 'p_max', 'p_rms','u_max_all'};
 
 
-    %Here I define the frequencies of my source points for the elastic
-    %simulation
+    % Here I define the frequencies of my source points for the elastic
+    % simulation
     [source.sxx, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
         source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
    
@@ -182,23 +200,42 @@ for source_freq2 = initial:step_size:final
     % run the fluid simulation
     sensor_data_elastic = pstdElastic2D(kgrid, medium, source, sensor, input_args{:});
     
-    %Find location of peak intensity
-    [freq_data.x_max_elastic(step_tracker),freq_data.y_max_elastic(step_tracker), max_rms_p] =...
-        max_coords(sensor_data_elastic.p_rms,Nx,Ny);
+    if plot_type ==0 % plot RMS pressure data
+        % Find location of peak intensity
+        [freq_data.x_max_elastic(step_tracker),freq_data.y_max_elastic(step_tracker), max_rms_p] =...
+            max_coords(sensor_data_elastic.p_rms,Nx,Ny);
     
+        % Find FWHM (making assumption that the profile is approximately circular)
+        [FWHM_matrix,freq_data.HM_x_max_elastic(step_tracker), freq_data.HM_y_max_elastic(step_tracker),...
+            freq_data.FWHM_elastic(step_tracker)] = FWHM_calc(sensor_data_elastic.p_rms,Nx,Ny,max_rms_p,dx);
     
-    %Find FWHM (making assumption that the profile is approximately circular)
-    [FWHM_matrix,freq_data.HM_x_max_elastic(step_tracker), freq_data.HM_y_max_elastic(step_tracker),...
-        freq_data.FWHM_elastic(step_tracker)] = FWHM_calc(sensor_data_elastic.p_rms,Nx,Ny,max_rms_p,dx);
+        % Add masks to data for plots
+        sensor_data_elastic.p_rms(source.s_mask ~= 0) = 1;
+        sensor_data_elastic.p_rms(FWHM_matrix == 1) = 1;
+    elseif plot_type==1 % plot max pressure data
+        % Find location of peak intensity
+        [freq_data.x_max_elastic(step_tracker),freq_data.y_max_elastic(step_tracker), max_p] =...
+            max_coords(sensor_data_elastic.p_max,Nx,Ny);
     
-    %Add masks to data for plots
-     sensor_data_elastic.p_rms(source.s_mask ~= 0) = 1;
-     sensor_data_elastic.p_rms(FWHM_matrix == 1) = 1;
+        %Find FWHM (making assumption that the profile is approximately circular)
+        [FWHM_matrix,freq_data.HM_x_max_elastic(step_tracker), freq_data.HM_y_max_elastic(step_tracker),...
+            freq_data.FWHM_elastic(step_tracker)] = FWHM_calc(sensor_data_elastic.p_max,Nx,Ny,max_p,dx);
+    
+        %Add masks to data for plots
+        sensor_data_elastic.p_max(source.s_mask ~= 0) = 1;
+        sensor_data_elastic.p_max(FWHM_matrix == 1) = 1;
+    end
 
     % plot and save the rms recorded pressure and HM line
-    %open new figure
+    % open new figure
     figure;
-    subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_rms,[-1 1]);
+    if plot_type == 0
+        subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_rms,[-1 1]);
+        title('RMS Pressure fluid simulation');
+    elseif plot_type == 1
+        subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_max,[-1 1]);
+        title('Max Pressure fluid simulation');
+    end
     colormap(getColorMap);
     ylabel('x-position [mm]');
     xlabel('y-position [mm]');
@@ -206,12 +243,17 @@ for source_freq2 = initial:step_size:final
     title('RMS Pressure fluid simulation');
     scaleFig(2, 1);   
     
-    subplot(1, 2, 2), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_elastic.p_rms, [-1 1]);
+    if plot_type ==0
+        subplot(1, 2, 2), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_elastic.p_rms, [-1 1]);
+        title('RMS Pressure elastic simulation');
+    elseif plot_type == 1
+        subplot(1, 2, 2), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_elastic.p_max, [-1 1]);
+        title('Max Pressure elastic simulation');
+    end
     colormap(getColorMap);
     ylabel('x-position [mm]');
     xlabel('y-position [mm]');
     axis image;
-    title('RMS Pressure elastic simulation');
     scaleFig(2, 1);   
     fname = sprintf('./Spine_Sim/HM_freq%d.fig', freq_data.frequency(step_tracker));
     %savefig(fname);
