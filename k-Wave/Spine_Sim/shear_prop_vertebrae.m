@@ -13,27 +13,24 @@ clear all;
 scale = 1;
 
 % create the computational grid
-Nx = 216;           % number of grid points in the x (row) direction
-Ny = 216;           % number of grid points in the y (column) direction
+Nx = 472;           % number of grid points in the x (row) direction
+Ny = 472;           % number of grid points in the y (column) direction
 PML_size = 20;
 x_length = 100e-3; 
 dx = x_length/Nx;    	% grid point spacing in the x direction [m]
 dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
-
-% create x,y coordinates, radius, for inclusion
-x_inclusion = round(Nx/2+20);
-y_inclusion = round(Ny/2);
-inc_radius = round(Nx/10);
+vsound = 1580; %[m/s]
 
 % create the time array
 cfl   = 0.1;
 t_end = 12e-5;
-kgrid.t_array= makeTime(kgrid, 1580, cfl, t_end);
+kgrid.t_array= makeTime(kgrid, vsound, cfl, t_end);
 
 % define two curved transducer elements
-source.p_mask = makedoubleSemiCircle(Nx, Ny,round((Nx+40)/2),round(Ny/2),...
-    round(Nx/2), pi/12, pi/3+pi/12,round((Nx+40)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
+source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx)/2),round(Ny/2),...
+    round(Nx/2), pi/12, pi/3+pi/12,round((Nx)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
+source.p_mask = source_mask;
 
 
 % define the source properties
@@ -51,11 +48,11 @@ Num_steps = (final - initial)/step_size;
 % define the sensor to record the maximum particle velocity everywhere
 sensor.record = {'u_max_all'};
 
-% set the input arguments
-%input_args = {'PMLSize', PML_size, 'PMLAlpha', 2, 'PlotPML', false, ...
-%    'PMLInside', false, 'PlotScale', [-1, 1]*source_strength, ...
-%    'DisplayMask', 'off', 'DataCast', 'single'};
-
+% define the medium properties structure
+    I = loadImage('vertebrae.png');
+    scale = Nx/745;
+    medium_img = imresize(I, scale);
+    medium_img = im2bw(medium_img,0.01);
 
 step_tracker = 1;
 
@@ -72,11 +69,20 @@ for source_freq2 = initial:step_size:final
     % =========================================================================
     % FLUID SIMULATION
     % =========================================================================
-
-    % define the medium properties
-    medium.sound_speed = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1580,2820);         % [m/s]
-    medium.density = makedensityDisc(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1000,1800);         % [kg/m^3]
-    medium.alpha_coeff = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0.57,9);   % [dB/(MHz^y cm)]
+    
+    for i = 1:Nx
+        for j = 1:Ny
+            if medium_img(i,j) == 0 
+                medium.sound_speed(i,j) = 1580; %[m/s]
+                medium.density(i,j) = 1000; %[kg/m^3]
+                medium.alpha_coeff(i,j) = 0.57; %[dB/(MHz^y cm)]
+            elseif medium_img(i,j) == 1
+                medium.sound_speed(i,j) = 2820; %[m/s]
+                medium.density(i,j) = 1800;    %[kg/m^3]
+                medium.alpha_coeff(i,j) = 9; %[dB/(MHz^y cm)]
+            end
+        end
+    end
     medium.alpha_power = 2;
    
     %Here I define the frequencies of my source points for fluid simulation
@@ -112,6 +118,13 @@ for source_freq2 = initial:step_size:final
     % set the record mode capture the final wave-field and the statistics at
     % each sensor point 
     sensor.record = {'p_final', 'p_max', 'p_rms','u_max_all'};
+    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2)
+    travel_time = max_distance /vsound;
+    i = 1;
+    while kgrid.t_array(i) < travel_time
+        i = i+1;
+    end
+    sensor.record_start_index = i;
 
     % assign the input options for fluid simulation
     input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false};
@@ -199,22 +212,42 @@ for source_freq2 = initial:step_size:final
     % clear medium properties for the elastic simulation
     clear medium
     % define the medium properties for the elastic simulation
-    medium.sound_speed_compression = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1580,2820);         % [m/s]
-    medium.sound_speed_shear = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0,1500);         % [m/s]
-    medium.density = makedensityDisc(Nx,Ny,x_inclusion,y_inclusion,inc_radius,1000,1800);         % [kg/m^3]
-    medium.alpha_coeff_compression = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0.57,9);   % [dB/(MHz^y cm)]
-    medium.alpha_coeff_shear = makemediaDisk(Nx,Ny,x_inclusion,y_inclusion,inc_radius,0,20);   % [dB/(MHz^y cm)]
-
+    
+    for i = 1:Nx
+        for j = 1:Ny
+            if medium_img(i,j) == 0
+                medium.sound_speed_compression(i,j) = 1580; %[m/s]
+                medium.sound_speed_shear(i,j) = 0; %[m/s]
+                medium.density(i,j) = 1000; %[kg/m^3]
+                medium.alpha_coeff_compression(i,j) = 0.57; %[dB/(MHz^y cm)]
+                medium.alpha_coeff_shear(i,j) = 0; %[dB/(MHz^y cm)]
+            elseif medium_img(i,j) == 1
+                medium.sound_speed_compression(i,j) = 2820; %[m/s]
+                medium.sound_speed_shear(i,j) = 1500; %[m/s]
+                medium.density(i,j) = 1800;    %[kg/m^3]
+                medium.alpha_coeff_compression(i,j) = 9; %[dB/(MHz^y cm)]
+                medium.alpha_coeff_shear(i,j) = 20; %[dB/(MHz^y cm)]
+            end
+        end
+    end
+   % medium.alpha_power = 2;
+    
+    
     % assign the source for the elastic simulation
     clear source
-    source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx+40)/2),round(Ny/2),...
-    round(Nx/2), pi/12, pi/3+pi/12,round((Nx+40)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
     source.s_mask = source_mask;
 
      % create a sensor mask covering the entire computational domain using the
     % opposing corners of a rectangle
     clear sensor;
     sensor.mask = [1, 1, Nx, Ny].';
+    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2)
+    travel_time = max_distance /vsound;
+    i = 1;
+    while kgrid.t_array(i) < travel_time
+        i = i+1;
+    end
+    sensor.record_start_index = i;
 
     % set the record mode capture the final wave-field and the statistics at
     % each sensor point 
@@ -332,11 +365,11 @@ for source_freq2 = initial:step_size:final
      end
      sensor_data_elastic.p_rms(source.s_mask ~= 0) = 1;
      sensor_data_elastic.p_rms(FWHM_matrix == 1) = 1;
-    
+     %sensor_data_elastic.p_rms(medium_img == 1) = 1;
      % plot and save the rms recorded pressure and HM line
     %open new figure
     figure;
-    subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_rms, [-1 1]);
+    subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_rms);
     colormap(getColorMap);
     ylabel('x-position [mm]');
     xlabel('y-position [mm]');
@@ -344,7 +377,7 @@ for source_freq2 = initial:step_size:final
     title('RMS Pressure fluid simulation');
     scaleFig(2, 1);   
     
-    subplot(1, 2, 2), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_elastic.p_rms, [-1 1]);
+    subplot(1, 2, 2), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_elastic.p_rms);
     colormap(getColorMap);
     ylabel('x-position [mm]');
     xlabel('y-position [mm]');

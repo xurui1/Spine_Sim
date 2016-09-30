@@ -268,6 +268,21 @@ In the following figure (Figure \ref{HM_elasticvsfluid}) , the half-maximum cont
 \end{figure}
 
 
+The half-maximum pressure profiles for the inclusion examples were not exactly as expected, with significant side-lobes. This, as I found out by properly reading the user manual, is because the RMS pressure profile is calculated from the entire simulation. In the simulation I've been running, I've started with a non-existent pressure profile, with the US waves then beginning to propagate from the transducers. While this approach is suited to an application that investigated total heat deposition, it gives a bias to the initial waves and is not a good representation of the steady state system. In order to determine the characteristics of the `steady state system', then we need to being the calculations of the time-averaged quantities once the US waves have propagated to the furthest points of the system. 
+
+This can be modified by setting the value sensor.record\_start\_index to the time at which the US field will have reached the furthest point in the computational box. 
+
+
+\section{System 3: 2D vertebrae shaped inclusion}
+
+The eventual goal of this code is to produce a simulation of ultrasound interacting with a vertebrae. We start with 2D simulations to reduce the computational overhead, and plan to progress to three dimensional simulations. In this simulation, we build the environment by importing an image, rather than building the inclusion using one of the in-house functions. I found a simple image of a vertebrae online, and then modified it to remove colour, mark-ups, and to allow for the placement of the vertebrae near the focal point of the two transducers. The image of the vertebrae and its placement used for this system is shown in the following figure \ref{vertebra}.
+
+\begin{figure}[H]\label{vertebra}
+\centering
+\includegraphics[scale=0.5]{setup3}
+\caption{I used an online image I found to construct the vertebrae, and placed the vertebrae approximately at the focus of the transducers.}
+\end{figure}
+
 
 
 \newpage

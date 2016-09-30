@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  23 SEP 2016 12:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  28 SEP 2016 11:58
 entering extended mode
 **"./Spine Simulation.tex"
 ("Spine Simulation.tex"
@@ -1073,17 +1073,29 @@ Overfull \hbox (92.06517pt too wide) in paragraph at lines 266--268
  []
 
 [23 <./images/comp_270kHz.jpg> <./images/comp_280kHz.jpg>] [24 <./images/comp_2
-90kHz.jpg> <./images/comp_300kHz.jpg>] ("Spine Simulation.bbl") [25]
-("Spine Simulation.aux")
+90kHz.jpg> <./images/comp_300kHz.jpg>]
+<./images/setup3.png, id=130, 747.79375pt x 356.33125pt>
+File: ./images/setup3.png Graphic file (type png)
+
+<use ./images/setup3.png>
+Package pdftex.def Info: ./images/setup3.png used on input line 282.
+(pdftex.def)             Requested size: 373.89595pt x 178.16518pt.
+
+Overfull \hbox (28.89595pt too wide) in paragraph at lines 282--283
+ [][] 
+ []
+
+[25 <./images/setup3.png>] ("Spine Simulation.bbl") [26] ("Spine Simulation.aux
+")
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3083 strings out of 493334
- 42295 string characters out of 3131088
- 104398 words of memory out of 3000000
- 6519 multiletter control sequences out of 15000+200000
+ 3090 strings out of 493334
+ 42428 string characters out of 3131088
+ 104407 words of memory out of 3000000
+ 6525 multiletter control sequences out of 15000+200000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,7n,25p,968b,228s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1101,9 +1113,9 @@ nts/cm/cmr17.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmr7.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTe
 X 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Spine Simulation.pdf" (25 pages, 1495706 bytes).
+Output written on "Spine Simulation.pdf" (26 pages, 1552409 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
+ 178 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 201 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,4 +1,5 @@
 %Simulating two transducers, a circular object, and accounting for shear waves
+%output files for rms pressure
 
 clear all;
 

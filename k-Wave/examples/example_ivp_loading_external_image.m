@@ -34,7 +34,7 @@ clear all;
 % load the initial pressure distribution from an image and scale the
 % magnitude
 p0_magnitude = 3;
-p0 = p0_magnitude*loadImage('EXAMPLE_source_one.png');
+p0 = p0_magnitude*loadImage('BWvertebrae.png');
 
 % create the computational grid
 Nx = 128;           % number of grid points in the x (row) direction

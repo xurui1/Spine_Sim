@@ -1,4 +1,7 @@
 %Simulating two transducers, a circular object, and accounting for shear waves
+%This is the same code as shear_prop_code, except in this case I am looking
+%at the maximum pressure profile instead of the root-mean-square pressure
+%profile
 
 clear all;
 
@@ -342,8 +345,8 @@ for source_freq2 = initial:step_size:final
     axis image;
     title('RMS Pressure elastic simulation');
     scaleFig(2, 1);   
-    fname = sprintf('./Spine_Sim/HM_freq%d.fig', freq_data.frequency(step_tracker));
-    %savefig(fname);
+    fname = sprintf('./Spine_Sim/HM_peak_freq%d.png', freq_data.frequency(step_tracker));
+    saveas(gcf,fname,'png');
 
 end
 

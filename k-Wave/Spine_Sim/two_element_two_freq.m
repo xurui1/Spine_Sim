@@ -10,8 +10,8 @@ clear all;
 % =========================================================================
 
 % create the computational grid
-Nx = 472;           % number of grid points in the x (row) direction
-Ny = 472;           % number of grid points in the y (column) direction
+Nx = 216;           % number of grid points in the x (row) direction
+Ny = 216;           % number of grid points in the y (column) direction
 x_length = 100e-3; 
 dx = x_length/Nx;    	% grid point spacing in the x direction [m]
 dy = dx;            % grid point spacing in the y direction [m]
@@ -20,16 +20,20 @@ kgrid = makeGrid(Nx, dx, Ny, dy);
 % define the properties of the propagation medium
 % medium.sound_speed = 1500;  % [m/s] ok for homogeneous medium
 % define the properties of the propagation medium    
-medium.sound_speed = makemediaDisk(Nx,Ny,236,236,50,1500,4080);         % [m/s]
-medium.density = makedensityDisc(Nx,Ny,236,236,50,1000,500);         % [m/s]
+vsound = 1500; 
+medium.sound_speed = makemediaDisk(Nx,Ny,round(Nx/2),round(Nx/2),round(Nx/10),vsound,vsound);         % [m/s]
+medium.density = makedensityDisc(Nx,Ny,round(Nx/2),round(Nx/2),round(Nx/10),1000,1000);         % [kg/m^3]
 medium.alpha_power = 1.5;   % [dB/(MHz^y cm)]
 medium.alpha_coeff = 0.75;  % [dB/(MHz^y cm)]
 
 % create the time array
-[kgrid.t_array, dt] = makeTime(kgrid, medium.sound_speed);
+cfl   = 0.1;
+t_end = 12e-5;
+kgrid.t_array= makeTime(kgrid, 1500, cfl, t_end);
 
 % define two curved transducer elements
-source.p_mask = makedoubleSemiCircle(Nx, Ny, 256, 236, 216, pi/12, pi/3+pi/12, 256, 236, 216, pi/12+pi/2, pi/3+pi/12+pi/2);
+source.p_mask = makedoubleSemiCircle(Nx, Ny,round(Nx/2),round(Ny/2),round(Nx/2),...
+    pi/12, pi/3+pi/12,round(Nx/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
 
 % define constant varying sinusoidal sources
 source_freq1 = 0.25e6;       % [Hz]
@@ -83,10 +87,25 @@ for source_freq2 = initial:step_size:final
 % set the record mode capture the final wave-field and the statistics at
 % each sensor point 
     sensor.record = {'p_final', 'p_max', 'p_rms'};
+% define time to start recording data by calculating the time it takes for
+% the US wave to propagate to the furthest point in the US field, in this
+% case from a transducer to the opposite corner (5cm from focal point plus
+% distance between focal point and far corner.
+    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2)
+    travel_time = max_distance /vsound;
+    i = 1;
+    while kgrid.t_array(i) < travel_time
+        i = i+1;
+    end
+    sensor.record_start_index = i;
+
+
 
 % assign the input options
     input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false};
 
+    
+    
 % run the simulation
     sensor_data = kspaceFirstOrder2D(kgrid, medium, source, sensor, input_args{:});
 
