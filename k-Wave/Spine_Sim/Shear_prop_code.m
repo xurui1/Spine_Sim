@@ -44,17 +44,18 @@ final = 0.3e6;               % [Hz]
 step_size = 0.01e6;          % [Hz]
 Num_steps = (final - initial)/step_size;
 
+ % define struct of frequencies, max rms pressure locations
+freq_data = struct('frequency',[],'x_max_elastic',[],'y_max_elastic',[],...
+'HM_x_max_elastic',[],'HM_y_max_elastic',[],'FWHM_elastic',[],...
+'x_max_fluid',[],'y_max_fluid',[],...
+'HM_x_max_fluid',[],'HM_y_max_fluid',[],'FWHM_fluid',[]);
+
 step_tracker = 1;
 
 for source_freq2 = initial:step_size:final 
     
-    % define struct of frequencies, max rms pressure locations
-    freq_data = struct('frequency',[],'x_max_elastic',[],'y_max_elastic',[],...
-    'HM_x_max_elastic',[],'HM_y_max_elastic',[],'FWHM_elastic',[],...
-    'x_max_fluid',[],'y_max_fluid',[],...
-    'HM_x_max_fluid',[],'HM_y_max_fluid',[],'FWHM_fluid',[]);
+    %Save frequency of source 2 in freq_data
     freq_data.frequency(step_tracker) = source_freq2;
-    
     
     % =========================================================================
     % FLUID SIMULATION
@@ -71,28 +72,9 @@ for source_freq2 = initial:step_size:final
     medium.alpha_power = 2;
    
     %Here I define the frequencies of my source points for fluid simulation
-    p_number = 1;
-    for j = 1:Ny/2
-      for i = 1:Nx
-          if source.p_mask(i,j) == 1
-               source.p(p_number,:) = source_mag1*sin(2*pi*source_freq1*kgrid.t_array);
-               p_number = p_number + 1;
-          end
-      end
-    end
-    for j = (Ny/2+1):Ny
-        for i = 1:Nx
-          if source.p_mask(i,j) == 1
-               source.p(p_number,:) = source_mag2*sin(2*pi*source_freq2*kgrid.t_array);
-               p_number = p_number + 1;
-          end
-        end
-    end
+    [source.p] = two_transducers_fluid(Nx,Ny,source.p_mask,...
+        source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
     
-    % filter the source to remove high frequencies not supported by the grid
-    for i = 1:p_number-1
-        source.p(i,:) = filterTimeSeries(kgrid, medium, source.p(i,:));
-    end
     % create a display mask to display the transducer for fluid simulation
     display_mask = source.p_mask;
 
@@ -112,75 +94,14 @@ for source_freq2 = initial:step_size:final
     sensor_data_fluid = kspaceFirstOrder2D(kgrid, medium, source, sensor, input_args{:});
     
     %Find location of peak intensity for fluid simulation
-    i_max = 0;
-    j_max = 0;
-    max_rms_p = 0;
-    for i = 1:Nx
-        for j = 1:Ny
-            if max_rms_p < sensor_data_fluid.p_rms(i,j)
-                i_max = i;
-                j_max = j;
-                max_rms_p = sensor_data_fluid.p_rms(i,j);
-            end
-        end
-    end
-    freq_data.x_max_fluid(step_tracker) = i_max;
-    freq_data.y_max_fluid(step_tracker) = j_max;
+    [freq_data.x_max_fluid(step_tracker), freq_data.y_max_fluid(step_tracker), max_rms_p] =...
+        max_coords(sensor_data_fluid.p_rms,Nx,Ny);
+    
     
     %Find FWHM (making assumption that the profile is approximately circular)
-    half_max_rms_p = max_rms_p/2;
-    half_max_coords_fluid = struct('x',[],'y',[]);
-    num_half_max_pts = 1;
-    for i = 2:Nx-1
-        for j = 2:Ny-2
-            %compute max,min at local 3-by-3 grid
-            local_max = sensor_data_fluid.p_rms(i,j);
-            local_min = sensor_data_fluid.p_rms(i,j);
-            for local_i = (i-1):(i+1)
-                for local_j = (j-1):(j+1)
-                    if sensor_data_fluid.p_rms(local_i,local_j) < local_min
-                        local_min = sensor_data_fluid.p_rms(local_i,local_j);
-                    end
-                    if sensor_data_fluid.p_rms(local_i,local_j) > local_max
-                        local_max = sensor_data_fluid.p_rms(local_i,local_j);
-                    end
-                end
-            end
-            %record location of HM point
-            if local_max >= half_max_rms_p  && local_min <=half_max_rms_p
-                half_max_coords_fluid.x(num_half_max_pts) = i;
-                half_max_coords_fluid.y(num_half_max_pts) = j;
-                num_half_max_pts = num_half_max_pts + 1;
-            end
-        end
-    end
-    %find centre of HM circle for fluid simulation
-    HM_circle_x = 0;
-    HM_circle_y = 0;
-     for i = 1:num_half_max_pts-1
-          HM_circle_x = HM_circle_x+half_max_coords_fluid.x(i);
-          HM_circle_y = HM_circle_y+half_max_coords_fluid.y(i);
-     end
-     HM_circle_x = HM_circle_x/(num_half_max_pts-1);
-     HM_circle_y = HM_circle_y/(num_half_max_pts-1);
-     freq_data.HM_x_max_fluid(step_tracker)= HM_circle_x;
-     freq_data.HM_y_max_fluid(step_tracker)= HM_circle_y;
-
-
-     %find mean distance from HM point to centre of HM circle
-     mean_norm=0; 
-     for i = 1:num_half_max_pts-1
-         mean_norm = mean_norm + sqrt((half_max_coords_fluid.x(i)-HM_circle_x)^2 + (half_max_coords_fluid.y(i)-HM_circle_y)^2);
-     end
-     mean_norm = mean_norm/(num_half_max_pts-1);
-     freq_data.FWHM_fluid(step_tracker) = 2.0*dx*mean_norm;
-     
-     %plot HM points to see where the points actually are in fluid
-     %simulation
-     FWHM_matrix = zeros(Nx,Ny);
-     for i = 1:num_half_max_pts-1
-         FWHM_matrix(half_max_coords_fluid.x(i),half_max_coords_fluid.y(i)) = 1;
-     end
+    [FWHM_matrix,freq_data.HM_x_max_fluid(step_tracker), freq_data.HM_y_max_fluid(step_tracker),...
+        freq_data.FWHM_fluid(step_tracker)] = FWHM_calc(sensor_data_fluid.p_rms,Nx,Ny,max_rms_p,dx);
+        
      sensor_data_fluid.p_rms(source.p_mask ~= 0) = 1;
      sensor_data_fluid.p_rms(FWHM_matrix == 1) = 1;
 
@@ -203,7 +124,7 @@ for source_freq2 = initial:step_size:final
 
      % create a sensor mask covering the entire computational domain using the
     % opposing corners of a rectangle
-    clear sensor;
+    clear sensor
     sensor.mask = [1, 1, Nx, Ny].';
 
     % set the record mode capture the final wave-field and the statistics at
@@ -213,34 +134,9 @@ for source_freq2 = initial:step_size:final
 
     %Here I define the frequencies of my source points for the elastic
     %simulation
-    p_number = 1;
-    for j = 1:Ny/2
-      for i = 1:Nx
-          if source.s_mask(i,j) == 1
-               source.sxx(p_number,:) = source_mag1*sin(2*pi*source_freq1*kgrid.t_array);
-               %source.sxy(p_number,:) = source_mag1*sin(2*pi*source_freq1*kgrid.t_array);
-               source.syy(p_number,:) = source_mag1*sin(2*pi*source_freq1*kgrid.t_array);
-               p_number = p_number + 1;
-          end
-      end
-    end
-    for j = (Ny/2+1):Ny
-        for i = 1:Nx
-          if source.s_mask(i,j) == 1
-               source.sxx(p_number,:) = source_mag2*sin(2*pi*source_freq2*kgrid.t_array);
-               %source.sxy(p_number,:) = source_mag2*sin(2*pi*source_freq2*kgrid.t_array);
-               source.syy(p_number,:) = source_mag2*sin(2*pi*source_freq2*kgrid.t_array);
-               p_number = p_number + 1;
-          end
-        end
-    end
+    [source.sxx, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
+        source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
     
-    % filter the source to remove high frequencies not supported by the grid
-    for i = 1:p_number-1
-        source.sxx(i,:) = filterTimeSeries(kgrid, medium, source.sxx(i,:));
-        %source.sxy(i,:) = filterTimeSeries(kgrid, medium, source.sxy(i,:));
-        source.syy(i,:) = filterTimeSeries(kgrid, medium, source.syy(i,:));
-    end
     % create a display mask to display the transducer for the elastic
     % simulation
     display_mask = source.s_mask;
@@ -252,74 +148,14 @@ for source_freq2 = initial:step_size:final
     sensor_data_elastic = pstdElastic2D(kgrid, medium, source, sensor, input_args{:});
     
     %Find location of peak intensity
-    i_max = 0;
-    j_max = 0;
-    max_rms_p = 0;
-    for i = 1:Nx
-        for j = 1:Ny
-            if max_rms_p < sensor_data_elastic.p_rms(i,j)
-                i_max = i;
-                j_max = j;
-                max_rms_p = sensor_data_elastic.p_rms(i,j);
-            end
-        end
-    end
-    freq_data.x_max_elastic(step_tracker) = i_max;
-    freq_data.y_max_elastic(step_tracker) = j_max;
+    [freq_data.x_max_elastic(step_tracker), freq_data.y_max_elastic(step_tracker),max_rms_p] =...
+        max_coords(sensor_data_elastic.p_rms,Nx,Ny);
+   
     
     %Find FWHM (making assumption that the profile is approximately circular)
-    half_max_rms_p = max_rms_p/2;
-    half_max_coords_elastic = struct('x',[],'y',[]);
-    num_half_max_pts = 1;
-    for i = 2:Nx-1
-        for j = 2:Ny-2
-            %compute max,min at local 3-by-3 grid
-            local_max = sensor_data_elastic.p_rms(i,j);
-            local_min = sensor_data_elastic.p_rms(i,j);
-            for local_i = (i-1):(i+1)
-                for local_j = (j-1):(j+1)
-                    if sensor_data_elastic.p_rms(local_i,local_j) < local_min
-                        local_min = sensor_data_elastic.p_rms(local_i,local_j);
-                    end
-                    if sensor_data_elastic.p_rms(local_i,local_j) > local_max
-                        local_max = sensor_data_elastic.p_rms(local_i,local_j);
-                    end
-                end
-            end
-            %record location of HM point
-            if local_max >= half_max_rms_p  && local_min <=half_max_rms_p
-                half_max_coords_elastic.x(num_half_max_pts) = i;
-                half_max_coords_elastic.y(num_half_max_pts) = j;
-                num_half_max_pts = num_half_max_pts + 1;
-            end
-        end
-    end
-    %find centre of HM circle 
-    HM_circle_x = 0;
-    HM_circle_y = 0;
-     for i = 1:num_half_max_pts-1
-          HM_circle_x = HM_circle_x+half_max_coords_elastic.x(i);
-          HM_circle_y = HM_circle_y+half_max_coords_elastic.y(i);
-     end
-     HM_circle_x = HM_circle_x/(num_half_max_pts-1);
-     HM_circle_y = HM_circle_y/(num_half_max_pts-1);
-     freq_data.HM_x_max_elastic(step_tracker)= HM_circle_x;
-     freq_data.HM_y_max_elastic(step_tracker)= HM_circle_y;
-
-
-     %find mean distance from HM point to centre of HM circle
-     mean_norm=0; 
-     for i = 1:num_half_max_pts-1
-         mean_norm = mean_norm + sqrt((half_max_coords_elastic.x(i)-HM_circle_x)^2 + (half_max_coords_elastic.y(i)-HM_circle_y)^2);
-     end
-     mean_norm = mean_norm/(num_half_max_pts-1);
-     freq_data.FWHM_elastic(step_tracker) = 2.0*dx*mean_norm;
-     
-     %plot HM points to see where the points actually are
-     FWHM_matrix = zeros(Nx,Ny);
-     for i = 1:num_half_max_pts-1
-         FWHM_matrix(half_max_coords_elastic.x(i),half_max_coords_elastic.y(i)) = 1;
-     end
+    [FWHM_matrix,freq_data.HM_x_max_elastic(step_tracker), freq_data.HM_y_max_elastic(step_tracker),...
+        freq_data.FWHM_elastic(step_tracker)] = FWHM_calc(sensor_data_elastic.p_rms,Nx,Ny,max_rms_p,dx);
+    
      sensor_data_elastic.p_rms(source.s_mask ~= 0) = 1;
      sensor_data_elastic.p_rms(FWHM_matrix == 1) = 1;
     

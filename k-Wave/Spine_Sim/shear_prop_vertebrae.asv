@@ -1,11 +1,15 @@
-%Simulating two transducers, an object from image fild, and accounting for shear waves
-%This code is somewhat based on the Shear Waves And Critical Angle Reflection Example
+%Simulating two transducers, an object, and accounting for shear waves
+% Shear Waves And Critical Angle Reflection Example
+
 
 clear all;
 
 % =========================================================================
 % SIMULATION PARAMETERS
 % =========================================================================
+
+% change scale to 2 to reproduce the higher resolution figures used in the
+% help file
 scale = 1;
 
 % create the computational grid
@@ -25,12 +29,12 @@ kgrid.t_array= makeTime(kgrid, vsound, cfl, t_end);
 
 % define two curved transducer elements
 source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx)/2),round(Ny/2),...
-    round(Nx/2), pi/12, pi/3+pi/12,round((Nx)/2),round(Ny/2),round(Nx/2),...
-    pi/12+pi/2, pi/3+pi/12+pi/2);
+    round(Nx/2), pi/12, pi/3+pi/12,round((Nx)/2),round(Ny/2),round(Nx/2), pi/12+pi/2, pi/3+pi/12+pi/2);
 source.p_mask = source_mask;
 
 
 % define the source properties
+% define constant varying sinusoidal sources
 source_freq1 = 0.25e6;       % [Hz]
 source_mag1 = 0.5;           % [Pa]
 source_mag2 = 0.5;           % [Pa]
@@ -47,21 +51,22 @@ sensor.record = {'u_max_all'};
 % define the medium properties structure
 I = loadImage('vertebrae.png');
 scale = Nx/745;
-medium_img = imresize(I, scale);
-medium_img = im2bw(medium_img,0.01);
+    medium_img = imresize(I, scale);
+    medium_img = im2bw(medium_img,0.01);
     
-% define struct of frequencies, max rms pressure locations, etc
-freq_data = struct('frequency',[],'x_max_elastic',[],'y_max_elastic',[],...
-'HM_x_max_elastic',[],'HM_y_max_elastic',[],'FWHM_elastic',[],...
-'x_max_fluid',[],'y_max_fluid',[],...
-'HM_x_max_fluid',[],'HM_y_max_fluid',[],'FWHM_fluid',[]);
+ % define struct of frequencies, max rms pressure locations, etc
+ freq_data = struct('frequency',[],'x_max_elastic',[],'y_max_elastic',[],...
+ 'HM_x_max_elastic',[],'HM_y_max_elastic',[],'FWHM_elastic',[],...
+ 'x_max_fluid',[],'y_max_fluid',[],...
+ 'HM_x_max_fluid',[],'HM_y_max_fluid',[],'FWHM_fluid',[]);
 
 step_tracker = 1;
 
 for source_freq2 = initial:step_size:final 
     
-    %Save frequency of source 2 in freq_data
+    
     freq_data.frequency(step_tracker) = source_freq2;
+    
     
     % =========================================================================
     % FLUID SIMULATION
