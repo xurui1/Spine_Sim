@@ -6,6 +6,8 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{cite}
+\usepackage{hyperref}
+
 \graphicspath{ {./images/} }
 
 \title{US Spine Simulation and Results}
@@ -18,7 +20,85 @@
 
 \section{Introduction}
 
-This document will outline my ultrasound code and results. I have constructed a simple two-dimensional simulation using existing code from the k-wave package to construct a two-transistor system.
+This document will outline my ultrasound code and results. I have constructed a simple two-dimensional simulation using existing code from the k-wave package to construct a two-transistor system. I'll start with an overview of the k-wave code for my own understanding and benefit. 
+
+\section{The k-wave Toolbox}
+
+\subsection{Governing equations for acoustic propagation}
+
+The k-wave toolbox is used to simulate the propagation of pressure waves through media, which is described by a set of couple first-order partial differential equations or the wave equation, a second-order partial differential equation. K-wave uses the first order equation, 
+\begin{align}
+\dfrac{\partial \textbf{u}}{\partial t} &= - \frac{1}{\rho_0} \nabla p\\
+\dfrac{\partial p }{\partial t} &= - \rho_0 \nabla \cdot \textbf{u}\\
+p &= c_0^2 \rho
+\end{align}
+where \textbf{u} is particle velocity, $p$ is acoustic pressure, $\rho$ is acoustic density, $\rho_0$ is equilibrium acoustic density, and $c_0$ is the isentropic speed of sound. In words, the change in particle velocity is given by the pressure gradient, divided by equilibrium acoustic density. That is, particle velocity will increase in the direction down the pressure gradient, and this increase is inversely proportional to the equilibrium acoustic density. This is the equation of momentum conservation. The second equation states that the change in acoustic density is proportional to equilibrium particle density times the divergence of the particle velocity field (particle flux). This is the equation of mass conservation. Finally, we have the pressure - density relationship, where pressure is equal to the isentropic speed of sound ($c_0 = \sqrt{K_s/\rho_0}$, $K_s$ is the isentropic bulk modulus, squared, times the density at that location. 
+
+
+This set of equations in this forms assumes that the medium is isotropic and quiescent. However, these equations must include additional terms if the medium is anisotropic and has absorbent properties, as shown in the following equations:
+\begin{align}
+\dfrac{\partial \textbf{u}}{\partial t} &= - \frac{1}{\rho_0} \nabla p\\
+\dfrac{\partial p }{\partial t} &= - \rho_0 \nabla \cdot \textbf{u} - \textbf{u}\cdot \nabla \rho_0 \\
+p &= c_0^2 (\rho + \textbf{d}\cdot\nabla \rho_0 -\textbf{L}\rho)
+\end{align}
+In this case, the momentum conservation equation remains the same. An additional term is present in the mass conservation equation to represent the additional mass transfer due to inhomogeneity in the equilibrium density profile of the medium (resulting in a non-zero gradient in $\rho_0$). The pressure-density relationship changes significantly, with the addition of the inner product of acoustic particle displacement \textbf{d} with the gradient of $\rho_0$, as well as a linear integro-differential operator ` \textbf{L}' that accounts for acoustic absorption $\alpha$) and dispersion in a medium that follows a frequency power law ($\alpha = \alpha_0 \omega^y$)  . This operator is defined:
+\begin{equation}\label{Powerlawabsorption}
+\textbf{L} = \tau \frac{\partial}{\partial t} ( - \nabla^2)^{\frac{y}{2} - 1} + \eta (-\nabla^2)^{\frac{y+1}{2} -1}
+\end{equation}
+where $\tau$ and $\eta$ are the absorption and dispersion proportionality coefficients:
+\begin{equation}
+\tau = -2\alpha_0c_0^{y-1}, \quad \quad \quad \eta = 2 \alpha_0c_0^y \tan \left(\frac{\pi y}{2} \right)
+\end{equation}
+where $\alpha_0$ is the power law prefactor and $y$ is the power law exponent. 
+
+Acoustic wave propagation ceases to be linear in certain biological circumstances, and in this case the governing equations of the system must be modified with higher order terms. k-Wave includes two non-linear terms   encompassed by a nonlinearity parameter $B/A$, which characterizes the contribution of finite-amplitude effects to sound speed. The governing equations are now:
+\begin{align}
+\dfrac{\partial \textbf{u}}{\partial t} &= - \frac{1}{\rho_0} \nabla p\\
+\dfrac{\partial p }{\partial t} &= - (2<rho+\rho_0) \nabla \cdot \textbf{u} - \textbf{u}\cdot \nabla \rho_0 \\
+p &= c_0^2 \left(\rho + \textbf{d}\cdot\nabla \rho_0 + \dfrac{B}{2A} \dfrac{\rho^2}{\rho_0}-\textbf{L}\rho\right)
+\end{align}
+
+We can generate acoustic waves in a medium by adding a force source term \textbf{S$_\textbf{F}$} to the momentum conservation equation and a mass source term and a mass source term \textbf{S$_\textbf{M}$} to the mass conservation equation.
+
+\subsection{Pseudospectral method}
+
+The k-wave toolbox uses a $k$-space pseudospectral method for the calculation of spatial derivatives, and then uses a finite difference scheme for temporal updates. For example, we can take the wave equation system for a simple homogeneous and lossless system,
+\begin{equation}
+\nabla^2 p (\textbf{x},t) - \dfrac{1}{c_0^2} \dfrac{\partial^2}{\partial t^2} p (\textbf{x},t)
+\end{equation}
+and use a spatial Fourier transform to rewrite the equation in $k$-space where it has the form:
+\begin{equation}
+\frac{\partial^2}{\partial t^2} p(\textbf{k},t) = - (c_0 k)^2 p(\textbf{k},t)
+\end{equation}
+and we can rewrite the temporal derivative as:
+\begin{equation}
+\frac{\partial^2}{\partial t^2} p(\textbf{k},t) = \dfrac{p(\textbf{k},t+\Delta t) - 2p(\textbf{k},t)+p(\textbf{k}, t-\Delta t)}{\Delta t^2} = - (c_0 k)^2 p(\textbf{k},t)
+\end{equation}
+This finite difference approximation scheme is subject to dispersion for large scale simulations, and this dispersion results in the accumulation of phase errors. However, we can replace the $\Delta t^2$ term by multiplying a corrective operator, the $k$-space operator, $\kappa^2 = \text{sinc}^2(c_{\text{ref}} k \Delta t/2)$. This technique is described in the textbook `Nonstandard Finite Difference Models of Differential Equations', \cite{mickens1993nonstandard}. Another approach k-wave uses to increase the stability and accuracy of the simulation is by using staggered spatial and temporal grids. 
+
+\subsection{Discretized equations}
+
+The mass and momentum equations, written in discrete form and using the k-space pseudospectral method, have the following form:
+\begin{align}
+\dfrac{\partial}{\partial \xi} p^n &= \mathcal{F}^{-1} \left[ i k_{\xi} \kappa e^{ i k_{\xi} \Delta \xi /2} \mathcal{F} \left[ p^n \right] \right] \\
+u_{\xi}^{n+\frac{1}{2}} &= u_{\xi}^{n-\frac{1}{2}} - \dfrac{\Delta t}{\rho_0} \dfrac{\partial}{\partial \xi} p^n + \Delta t \textbf{S}_{\textbf{F}_{\xi}}^n\\
+\dfrac{\partial}{\partial \xi} u_{\xi}^{n+\frac{1}{2}} &= \mathcal{F}^{-1} \left[ i k_{\xi} \kappa e^{-ik_{\xi} \Delta \xi / 2} \mathcal{F} \left[ u_{\xi}^{n+\frac{1}{2}} \right] \right]\\
+\rho_{\xi}^{n+1} &= \rho_{\xi}^n - \Delta t \rho_0 \dfrac{\partial}{\partial \xi} u_{\xi}^{n+\frac{1}{2}} + \Delta t  \textbf{S}_{\textbf{F}_{\xi}}^{n+\frac{1}{2}}
+\end{align}
+In the above, the first and third equations are spatial gradient calculations and the second and fourth equations are update steps. The symbol $\xi$ represents cartesian coordinates for one to three dimensional systems, $k_{\xi}$ represents wavenumber in the $\xi$ direction and is discretized according to: 
+\begin{equation}
+k_{\xi} = \left[-\dfrac{\text{N}_{\xi}}{2}, -\dfrac{\text{N}_{\xi}}{2}+1, ... , \dfrac{\text{N}_{\xi}}{2} -1 \right] \dfrac{2\pi}{\Delta \xi \textbf{N}_{\xi}}
+\end{equation}
+if N$_{\xi}$ is even, or 
+\begin{equation}
+k_{\xi} = \left[-\dfrac{\text{N-1}_{\xi}}{2}, -\dfrac{\text{N-1}_{\xi}}{2}+1, ... , \dfrac{\text{N-1}_{\xi}}{2} \right] \dfrac{2\pi}{\Delta \xi \textbf{N}_{\xi}}
+\end{equation}
+if N$_{\xi}$ is odd. The algorithm follows a simple procedure, where pressure is known at timestep $n$, then pressure differentials are calculated at staggered grid points for this timestep $n$. Subsequently, particle velocity is calculated from these pressure differentials for timestep $n+1/2$ at the staggered grid points. Next, velocity differentials area calculated at the regular grid points, and these velocity differentials are subsequently used to update density (and therefore pressure using the pressure-density relation) at the regular grid points for timestep $n+1/2$. The discretized pressure-density relation is $p^{n+1} = c_0^2(\rho^{n+1} - \textbf{L}_{\text{d}}$, where L$_{\text{d}}$ is the discretized form of the power law absorption term (Equation \ref{Powerlawabsorption}. The discretized form of the power law absorption term is:
+\begin{align}
+\text{L}_{\text{d}} &= \tau \mathcal{F}^{-1} \left[k^{y-2} \mathcal{F} \left[\frac{\partial}{\partial t} \rho^n \right] \right] + \eta \mathcal{F}^{-1} \left[ k^{y-1} \mathcal{F}\left[\rho^{n+1}\right] \right]\\
+&= \tau \mathcal{F}^{-1} \left[k^{y-2} \mathcal{F} \left[\rho_0 \sum_{\xi} \frac{\partial}{\partial \xi} x_{\xi}^{n+\frac{1}{2}} \right] \right] + \eta \mathcal{F}^{-1} \left[ k^{y-1} \mathcal{F}\left[\rho^{n+1}\right] \right]
+\end{align}
+
 
 \section{System 1: Homogeneous Medium, Two Elements, Two Frequencies}
 
@@ -275,13 +355,21 @@ This can be modified by setting the value sensor.record\_start\_index to the tim
 
 \section{System 3: 2D vertebrae shaped inclusion}
 
-The eventual goal of this code is to produce a simulation of ultrasound interacting with a vertebrae. We start with 2D simulations to reduce the computational overhead, and plan to progress to three dimensional simulations. In this simulation, we build the environment by importing an image, rather than building the inclusion using one of the in-house functions. I found a simple image of a vertebrae online, and then modified it to remove colour, mark-ups, and to allow for the placement of the vertebrae near the focal point of the two transducers. The image of the vertebrae and its placement used for this system is shown in the following figure \ref{vertebra}.
+The eventual goal of this code is to produce a simulation of ultrasound interacting with a vertebrae. We start with 2D simulations to reduce the computational overhead, and plan to progress to three dimensional simulations. In this simulation, we build the environment by importing an image, rather than building the inclusion using one of the in-house functions. I found a simple image of a vertebrae online (\href{https://www.cedars-sinai.edu/Patients/Programs-and-Services/Spine-Center/The-Patient-Guide/Anatomy-of-the-Spine/Vertebrae-of-the-Spine.aspx}{Vertebra}), and then modified it to remove colour, mark-ups, and to allow for the placement of the vertebrae near the focal point of the two transducers. The image of the vertebrae and its placement used for this system is shown in the following figure \ref{vertebra}.
 
 \begin{figure}[H]\label{vertebra}
 \centering
 \includegraphics[scale=0.5]{setup3}
 \caption{I used an online image I found to construct the vertebrae, and placed the vertebrae approximately at the focus of the transducers.}
 \end{figure}
+
+The image of the vertebra was binarized using the matlab function im2bw, where white (zero) represents water and black (one) represents bone, in order to use the image of the vertebrae to set the properties of the medium. The im2bw function uses a cut-off to choose whether a point is assigned as 0 (water) or 1. (bone) This cut-off may result in the erroneous assignment of points within the vertebrae as 0 or points on the exterior of the vertebrae as 1. The image must also be resized such that there is one binary grid point per computational point in the simulation `medium'. As explained in \cite{muir1992modeling,vafaeian2014finite}, the usage of cartesian grids to represent irregular boundaries can lead to a `staircase' effect, where a boundary that is not aligned with a cartesian axis becomes irregular. However, these methods use real space calculations wheras the pseudospectral method supposedly only requires two grid points per wavelength, or four points per wavelength for inhomogeneous media. This irregularity in turn results in unwanted diffraction, and subsequently the simulation is no longer accurate. I've naively used the binarizing method described above, and sent this medium through both fluid and elastic simulations. The root-mean-square results are shown in the following figure \ref{fluidvselastic_vertebrae_rms}.
+
+\begin{figure}[H]\label{fluidvselastic_vertebrae_rms}
+\hspace*{-4cm}
+\includegraphics[scale=0.7]{fluidvselastic_vertebrae_rms}
+\caption{K-wave simulation results using a binary mask of an image of a \href{https://www.cedars-sinai.edu/Patients/Programs-and-Services/Spine-Center/The-Patient-Guide/Anatomy-of-the-Spine/Vertebrae-of-the-Spine.aspx}{vertebra}. The results from the elastic simulation show that the irregular boundary of the vertebra gives erroneous diffraction, absorption, etc. from the inclusion. }
+\end{figure} 
 
 
 

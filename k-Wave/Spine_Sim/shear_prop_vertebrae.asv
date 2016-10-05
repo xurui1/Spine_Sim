@@ -9,15 +9,15 @@ clear all;
 scale = 1;
 
 % create the computational grid
-Nx = 216;           % number of grid points in the x (row) direction
-Ny = 216;           % number of grid points in the y (column) direction
+Nx = 472;           % number of grid points in the x (row) direction
+Ny = 472;           % number of grid points in the y (column) direction
 PML_size = 20;
 x_length = 100e-3;  %length in x-direction [mm]
 dx = x_length/Nx;    	% grid point spacing in the x direction [m]
 dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
 vsound = 1580; %[m/s]
-plot_type = 1;      % 0-RMS data, 1-max pressure data
+plot_type = 0;      % 0-RMS data, 1-max pressure data
 
 % create the time array
 cfl   = 0.1;
@@ -66,6 +66,8 @@ for source_freq2 = initial:step_size:final
     % =========================================================================
     % FLUID SIMULATION
     % =========================================================================    
+    
+    %Set medium properties for fluid simulation
     for i = 1:Nx
         for j = 1:Ny
             if medium_img(i,j) == 0 
@@ -166,7 +168,7 @@ for source_freq2 = initial:step_size:final
     clear source
     source.s_mask = source_mask;
 
-     % create a sensor mask covering the entire computational domain using the
+    % create a sensor mask covering the entire computational domain using the
     % opposing corners of a rectangle
     clear sensor;
     sensor.mask = [1, 1, Nx, Ny].';
@@ -183,11 +185,12 @@ for source_freq2 = initial:step_size:final
     sensor.record = {'p_final', 'p_max', 'p_rms','u_max_all'};
 
 
-    %Here I define the frequencies of my source points for the elastic
-    %simulation
-    [source.sxx, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
+    % Here I define the frequencies of my source points for the elastic
+    % simulation
+    [source.sxx, source.sxy, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
         source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
-   
+   source.s_mode = dirich
+    
     % create a display mask to display the transducer for the elastic
     % simulation
     display_mask = source.s_mask;
@@ -198,20 +201,20 @@ for source_freq2 = initial:step_size:final
     % run the fluid simulation
     sensor_data_elastic = pstdElastic2D(kgrid, medium, source, sensor, input_args{:});
     
-    if plot_type ==0 %plot RMS pressure data
-        %Find location of peak intensity
+    if plot_type ==0 % plot RMS pressure data
+        % Find location of peak intensity
         [freq_data.x_max_elastic(step_tracker),freq_data.y_max_elastic(step_tracker), max_rms_p] =...
             max_coords(sensor_data_elastic.p_rms,Nx,Ny);
     
-        %Find FWHM (making assumption that the profile is approximately circular)
+        % Find FWHM (making assumption that the profile is approximately circular)
         [FWHM_matrix,freq_data.HM_x_max_elastic(step_tracker), freq_data.HM_y_max_elastic(step_tracker),...
             freq_data.FWHM_elastic(step_tracker)] = FWHM_calc(sensor_data_elastic.p_rms,Nx,Ny,max_rms_p,dx);
     
-        %Add masks to data for plots
+        % Add masks to data for plots
         sensor_data_elastic.p_rms(source.s_mask ~= 0) = 1;
         sensor_data_elastic.p_rms(FWHM_matrix == 1) = 1;
-    elseif plot_type==1 %plot max pressure data
-        %Find location of peak intensity
+    elseif plot_type==1 % plot max pressure data
+        % Find location of peak intensity
         [freq_data.x_max_elastic(step_tracker),freq_data.y_max_elastic(step_tracker), max_p] =...
             max_coords(sensor_data_elastic.p_max,Nx,Ny);
     
@@ -225,7 +228,7 @@ for source_freq2 = initial:step_size:final
     end
 
     % plot and save the rms recorded pressure and HM line
-    %open new figure
+    % open new figure
     figure;
     if plot_type == 0
         subplot(1, 2, 1), imagesc(kgrid.y_vec*1e3, kgrid.x_vec*1e3, sensor_data_fluid.p_rms,[-1 1]);

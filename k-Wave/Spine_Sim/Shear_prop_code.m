@@ -134,7 +134,7 @@ for source_freq2 = initial:step_size:final
 
     %Here I define the frequencies of my source points for the elastic
     %simulation
-    [source.sxx, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
+    [source.sxx, source.sxy, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
         source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
     
     % create a display mask to display the transducer for the elastic

@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{mickens1993nonstandard}
+R.~E. Mickens, {\em Nonstandard finite difference models of differential
+  equations}.
+\newblock world scientific, 1993.
+
 \bibitem{duck1990physical}
 F.~Duck, ``Physical properties of tissue: A comprehensive reference book
   (academic, london),'' 1990.
@@ -13,5 +18,15 @@ B.~E. Treeby and T.~Saratoon, ``The contribution of shear wave absorption to
 B.~E. Treeby, J.~Jaros, D.~Rohrbach, and B.~Cox, ``Modelling elastic wave
   propagation using the k-wave matlab toolbox,'' in {\em 2014 IEEE
   International Ultrasonics Symposium}, pp.~146--149, IEEE, 2014.
+
+\bibitem{muir1992modeling}
+F.~Muir, J.~Dellinger, J.~Etgen, and D.~Nichols, ``Modeling elastic fields
+  across irregular boundaries,'' {\em Geophysics}, vol.~57, no.~9,
+  pp.~1189--1193, 1992.
+
+\bibitem{vafaeian2014finite}
+B.~Vafaeian, M.~El-Rich, T.~El-Bialy, and S.~Adeeb, ``The finite element method
+  for micro-scale modeling of ultrasound propagation in cancellous bone,'' {\em
+  Ultrasonics}, vol.~54, no.~6, pp.~1663--1676, 2014.
 
 \end{thebibliography}
