@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  5 OCT 2016 11:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  6 OCT 2016 11:15
 entering extended mode
 **"./Spine Simulation.tex"
 ("Spine Simulation.tex"
@@ -654,14 +654,19 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 {C:/Users/Rui/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-[3] <./images/setup1.png, id=100, 747.79375pt x 356.33125pt>
+[3] [4]
+Overfull \hbox (0.56299pt too wide) in paragraph at lines 108--108
+[][]\OT1/cmr/bx/n/14.4 System 1: Ho-mo-ge-neous Medium, Two El-e-ments,
+ []
+
+<./images/setup1.png, id=65, 747.79375pt x 356.33125pt>
 File: ./images/setup1.png Graphic file (type png)
 
 <use ./images/setup1.png>
-Package pdftex.def Info: ./images/setup1.png used on input line 109.
+Package pdftex.def Info: ./images/setup1.png used on input line 114.
 (pdftex.def)             Requested size: 373.89595pt x 178.16518pt.
 
-Overfull \hbox (28.89595pt too wide) in paragraph at lines 109--111
+Overfull \hbox (28.89595pt too wide) in paragraph at lines 114--115
  [][] 
  []
 
@@ -669,590 +674,590 @@ Overfull \hbox (28.89595pt too wide) in paragraph at lines 109--111
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
 
  []
 
-[4] <./images/f150kHz.jpg, id=114, 1124.2pt x 421.575pt>
+<./images/f150kHz.jpg, id=67, 1124.2pt x 421.575pt>
 File: ./images/f150kHz.jpg Graphic file (type jpg)
-
-<use ./images/f150kHz.jpg>
-Package pdftex.def Info: ./images/f150kHz.jpg used on input line 121.
+ <use ./images/f150kHz.jpg>
+Package pdftex.def Info: ./images/f150kHz.jpg used on input line 127.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 120--122
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 126--128
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f160kHz.jpg, id=115, 1124.2pt x 421.575pt>
+<./images/f160kHz.jpg, id=68, 1124.2pt x 421.575pt>
 File: ./images/f160kHz.jpg Graphic file (type jpg)
-
-<use ./images/f160kHz.jpg>
-Package pdftex.def Info: ./images/f160kHz.jpg used on input line 126.
+ <use ./images/f160kHz.jpg>
+Package pdftex.def Info: ./images/f160kHz.jpg used on input line 132.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 125--127
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 131--133
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f170kHz.jpg, id=116, 1124.2pt x 421.575pt>
+<./images/f170kHz.jpg, id=69, 1124.2pt x 421.575pt>
 File: ./images/f170kHz.jpg Graphic file (type jpg)
-
-<use ./images/f170kHz.jpg>
-Package pdftex.def Info: ./images/f170kHz.jpg used on input line 131.
+ <use ./images/f170kHz.jpg>
+Package pdftex.def Info: ./images/f170kHz.jpg used on input line 137.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 130--132
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 136--138
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f180kHz.jpg, id=117, 1124.2pt x 421.575pt>
+<./images/f180kHz.jpg, id=70, 1124.2pt x 421.575pt>
 File: ./images/f180kHz.jpg Graphic file (type jpg)
-
-<use ./images/f180kHz.jpg>
-Package pdftex.def Info: ./images/f180kHz.jpg used on input line 136.
+ <use ./images/f180kHz.jpg>
+Package pdftex.def Info: ./images/f180kHz.jpg used on input line 142.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 135--137
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 141--143
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f190kHz.jpg, id=118, 1124.2pt x 421.575pt>
+<./images/f190kHz.jpg, id=71, 1124.2pt x 421.575pt>
 File: ./images/f190kHz.jpg Graphic file (type jpg)
-
-<use ./images/f190kHz.jpg>
-Package pdftex.def Info: ./images/f190kHz.jpg used on input line 141.
+ <use ./images/f190kHz.jpg>
+Package pdftex.def Info: ./images/f190kHz.jpg used on input line 147.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 140--142
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 146--148
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f200kHz.jpg, id=119, 1124.2pt x 421.575pt>
+<./images/f200kHz.jpg, id=72, 1124.2pt x 421.575pt>
 File: ./images/f200kHz.jpg Graphic file (type jpg)
-
-<use ./images/f200kHz.jpg>
-Package pdftex.def Info: ./images/f200kHz.jpg used on input line 146.
+ <use ./images/f200kHz.jpg>
+Package pdftex.def Info: ./images/f200kHz.jpg used on input line 152.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 145--147
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 151--153
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f210kHz.jpg, id=120, 1124.2pt x 421.575pt>
+<./images/f210kHz.jpg, id=73, 1124.2pt x 421.575pt>
 File: ./images/f210kHz.jpg Graphic file (type jpg)
-
-<use ./images/f210kHz.jpg>
-Package pdftex.def Info: ./images/f210kHz.jpg used on input line 151.
+ <use ./images/f210kHz.jpg>
+Package pdftex.def Info: ./images/f210kHz.jpg used on input line 157.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 150--152
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 156--158
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f220kHz.jpg, id=121, 1124.2pt x 421.575pt>
+<./images/f220kHz.jpg, id=74, 1124.2pt x 421.575pt>
 File: ./images/f220kHz.jpg Graphic file (type jpg)
-
-<use ./images/f220kHz.jpg>
-Package pdftex.def Info: ./images/f220kHz.jpg used on input line 156.
+ <use ./images/f220kHz.jpg>
+Package pdftex.def Info: ./images/f220kHz.jpg used on input line 162.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 155--157
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 161--163
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f230kHz.jpg, id=122, 1124.2pt x 421.575pt>
+<./images/f230kHz.jpg, id=75, 1124.2pt x 421.575pt>
 File: ./images/f230kHz.jpg Graphic file (type jpg)
-
-<use ./images/f230kHz.jpg>
-Package pdftex.def Info: ./images/f230kHz.jpg used on input line 161.
+ <use ./images/f230kHz.jpg>
+Package pdftex.def Info: ./images/f230kHz.jpg used on input line 167.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 160--162
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 166--168
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f240kHz.jpg, id=123, 1124.2pt x 421.575pt>
+<./images/f240kHz.jpg, id=76, 1124.2pt x 421.575pt>
 File: ./images/f240kHz.jpg Graphic file (type jpg)
-
-<use ./images/f240kHz.jpg>
-Package pdftex.def Info: ./images/f240kHz.jpg used on input line 166.
+ <use ./images/f240kHz.jpg>
+Package pdftex.def Info: ./images/f240kHz.jpg used on input line 172.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 165--167
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 171--173
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f250kHz.jpg, id=124, 1124.2pt x 421.575pt>
+<./images/f250kHz.jpg, id=77, 1124.2pt x 421.575pt>
 File: ./images/f250kHz.jpg Graphic file (type jpg)
-
-<use ./images/f250kHz.jpg>
-Package pdftex.def Info: ./images/f250kHz.jpg used on input line 171.
+ <use ./images/f250kHz.jpg>
+Package pdftex.def Info: ./images/f250kHz.jpg used on input line 177.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 170--172
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 176--178
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f260kHz.jpg, id=125, 1124.2pt x 421.575pt>
+<./images/f260kHz.jpg, id=78, 1124.2pt x 421.575pt>
 File: ./images/f260kHz.jpg Graphic file (type jpg)
-
-<use ./images/f260kHz.jpg>
-Package pdftex.def Info: ./images/f260kHz.jpg used on input line 176.
+ <use ./images/f260kHz.jpg>
+Package pdftex.def Info: ./images/f260kHz.jpg used on input line 182.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 175--177
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 181--183
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f270kHz.jpg, id=126, 1124.2pt x 421.575pt>
+<./images/f270kHz.jpg, id=79, 1124.2pt x 421.575pt>
 File: ./images/f270kHz.jpg Graphic file (type jpg)
-
-<use ./images/f270kHz.jpg>
-Package pdftex.def Info: ./images/f270kHz.jpg used on input line 181.
+ <use ./images/f270kHz.jpg>
+Package pdftex.def Info: ./images/f270kHz.jpg used on input line 187.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 180--182
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 186--188
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f280kHz.jpg, id=127, 1124.2pt x 421.575pt>
+<./images/f280kHz.jpg, id=80, 1124.2pt x 421.575pt>
 File: ./images/f280kHz.jpg Graphic file (type jpg)
-
-<use ./images/f280kHz.jpg>
-Package pdftex.def Info: ./images/f280kHz.jpg used on input line 186.
+ <use ./images/f280kHz.jpg>
+Package pdftex.def Info: ./images/f280kHz.jpg used on input line 192.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 185--187
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 191--193
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f290kHz.jpg, id=128, 1124.2pt x 421.575pt>
+<./images/f290kHz.jpg, id=81, 1124.2pt x 421.575pt>
 File: ./images/f290kHz.jpg Graphic file (type jpg)
-
-<use ./images/f290kHz.jpg>
-Package pdftex.def Info: ./images/f290kHz.jpg used on input line 191.
+ <use ./images/f290kHz.jpg>
+Package pdftex.def Info: ./images/f290kHz.jpg used on input line 197.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 190--192
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 196--198
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f300kHz.jpg, id=129, 1124.2pt x 421.575pt>
+<./images/f300kHz.jpg, id=82, 1124.2pt x 421.575pt>
 File: ./images/f300kHz.jpg Graphic file (type jpg)
-
-<use ./images/f300kHz.jpg>
-Package pdftex.def Info: ./images/f300kHz.jpg used on input line 196.
+ <use ./images/f300kHz.jpg>
+Package pdftex.def Info: ./images/f300kHz.jpg used on input line 202.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 195--197
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 201--203
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f310kHz.jpg, id=130, 1124.2pt x 421.575pt>
+<./images/f310kHz.jpg, id=83, 1124.2pt x 421.575pt>
 File: ./images/f310kHz.jpg Graphic file (type jpg)
-
-<use ./images/f310kHz.jpg>
-Package pdftex.def Info: ./images/f310kHz.jpg used on input line 201.
+ <use ./images/f310kHz.jpg>
+Package pdftex.def Info: ./images/f310kHz.jpg used on input line 207.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 200--202
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 206--208
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f320kHz.jpg, id=131, 1124.2pt x 421.575pt>
+<./images/f320kHz.jpg, id=84, 1124.2pt x 421.575pt>
 File: ./images/f320kHz.jpg Graphic file (type jpg)
-
-<use ./images/f320kHz.jpg>
-Package pdftex.def Info: ./images/f320kHz.jpg used on input line 206.
+ <use ./images/f320kHz.jpg>
+Package pdftex.def Info: ./images/f320kHz.jpg used on input line 212.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 205--207
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 211--213
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f330kHz.jpg, id=132, 1124.2pt x 421.575pt>
+<./images/f330kHz.jpg, id=85, 1124.2pt x 421.575pt>
 File: ./images/f330kHz.jpg Graphic file (type jpg)
-
-<use ./images/f330kHz.jpg>
-Package pdftex.def Info: ./images/f330kHz.jpg used on input line 211.
+ <use ./images/f330kHz.jpg>
+Package pdftex.def Info: ./images/f330kHz.jpg used on input line 217.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 210--212
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 216--218
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f340kHz.jpg, id=133, 1124.2pt x 421.575pt>
+<./images/f340kHz.jpg, id=86, 1124.2pt x 421.575pt>
 File: ./images/f340kHz.jpg Graphic file (type jpg)
-
-<use ./images/f340kHz.jpg>
-Package pdftex.def Info: ./images/f340kHz.jpg used on input line 216.
+ <use ./images/f340kHz.jpg>
+Package pdftex.def Info: ./images/f340kHz.jpg used on input line 222.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 215--217
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 221--223
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/f350kHz.jpg, id=134, 1124.2pt x 421.575pt>
+<./images/f350kHz.jpg, id=87, 1124.2pt x 421.575pt>
 File: ./images/f350kHz.jpg Graphic file (type jpg)
-
-<use ./images/f350kHz.jpg>
-Package pdftex.def Info: ./images/f350kHz.jpg used on input line 221.
+ <use ./images/f350kHz.jpg>
+Package pdftex.def Info: ./images/f350kHz.jpg used on input line 227.
 (pdftex.def)             Requested size: 674.5252pt x 252.94695pt.
 
-Overfull \hbox (189.48364pt too wide) in paragraph at lines 220--222
+Overfull \hbox (189.48364pt too wide) in paragraph at lines 226--228
 []|  [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5 <./images/setup1.png>]
-
-LaTeX Warning: Text page 6 contains only floats.
-
-[6 <./images/f150kHz.jpg> <./images/f160kHz.jpg>]
+[5] [6 <./images/setup1.png> <./images/f150kHz.jpg>]
 
 LaTeX Warning: Text page 7 contains only floats.
 
-[7 <./images/f170kHz.jpg> <./images/f180kHz.jpg>]
+[7 <./images/f160kHz.jpg> <./images/f170kHz.jpg>]
 
 LaTeX Warning: Text page 8 contains only floats.
 
-[8 <./images/f190kHz.jpg> <./images/f200kHz.jpg>]
+[8 <./images/f180kHz.jpg> <./images/f190kHz.jpg>]
 
 LaTeX Warning: Text page 9 contains only floats.
 
-[9 <./images/f210kHz.jpg> <./images/f220kHz.jpg>]
+[9 <./images/f200kHz.jpg> <./images/f210kHz.jpg>]
 
 LaTeX Warning: Text page 10 contains only floats.
 
-[10 <./images/f230kHz.jpg> <./images/f240kHz.jpg>]
+[10 <./images/f220kHz.jpg> <./images/f230kHz.jpg>]
 
 LaTeX Warning: Text page 11 contains only floats.
 
-[11 <./images/f250kHz.jpg> <./images/f260kHz.jpg>]
+[11 <./images/f240kHz.jpg> <./images/f250kHz.jpg>]
 
 LaTeX Warning: Text page 12 contains only floats.
 
-[12 <./images/f270kHz.jpg> <./images/f280kHz.jpg>]
+[12 <./images/f260kHz.jpg> <./images/f270kHz.jpg>]
 
 LaTeX Warning: Text page 13 contains only floats.
 
-[13 <./images/f290kHz.jpg> <./images/f300kHz.jpg>]
+[13 <./images/f280kHz.jpg> <./images/f290kHz.jpg>]
 
 LaTeX Warning: Text page 14 contains only floats.
 
-[14 <./images/f310kHz.jpg> <./images/f320kHz.jpg>]
+[14 <./images/f300kHz.jpg> <./images/f310kHz.jpg>]
 
 LaTeX Warning: Text page 15 contains only floats.
 
-[15 <./images/f330kHz.jpg> <./images/f340kHz.jpg>]
-<./images/FWHM_freq.jpg, id=203, 562.1pt x 421.575pt>
+[15 <./images/f320kHz.jpg> <./images/f330kHz.jpg>]
+
+LaTeX Warning: Text page 16 contains only floats.
+
+[16 <./images/f340kHz.jpg> <./images/f350kHz.jpg>]
+
+Package hyperref Warning: Suppressing empty link on input line 242.
+
+<./images/FWHM_freq.jpg, id=165, 562.1pt x 421.575pt>
 File: ./images/FWHM_freq.jpg Graphic file (type jpg)
 
 <use ./images/FWHM_freq.jpg>
-Package pdftex.def Info: ./images/FWHM_freq.jpg used on input line 240.
+Package pdftex.def Info: ./images/FWHM_freq.jpg used on input line 246.
 (pdftex.def)             Requested size: 337.2626pt x 252.94695pt.
- [16 <./images/f350kHz.jpg>]
-<./images/FWHM_centre.jpg, id=211, 562.1pt x 421.575pt>
+
+<./images/FWHM_centre.jpg, id=166, 562.1pt x 421.575pt>
 File: ./images/FWHM_centre.jpg Graphic file (type jpg)
 
 <use ./images/FWHM_centre.jpg>
-Package pdftex.def Info: ./images/FWHM_centre.jpg used on input line 250.
+Package pdftex.def Info: ./images/FWHM_centre.jpg used on input line 256.
 (pdftex.def)             Requested size: 337.2626pt x 252.94695pt.
  [17 <./images/FWHM_freq.jpg>]
-<./images/Max_RMS_pressure_coords.jpg, id=218, 562.1pt x 421.575pt>
+
+Package hyperref Warning: Suppressing empty link on input line 262.
+
+<./images/Max_RMS_pressure_coords.jpg, id=175, 562.1pt x 421.575pt>
 File: ./images/Max_RMS_pressure_coords.jpg Graphic file (type jpg)
 
 <use ./images/Max_RMS_pressure_coords.jpg>
 Package pdftex.def Info: ./images/Max_RMS_pressure_coords.jpg used on input lin
-e 260.
+e 266.
 (pdftex.def)             Requested size: 365.36067pt x 274.0205pt.
 
-Overfull \hbox (20.36067pt too wide) in paragraph at lines 260--261
+Overfull \hbox (20.36067pt too wide) in paragraph at lines 266--267
  [][] 
  []
 
 [18 <./images/FWHM_centre.jpg>] [19 <./images/Max_RMS_pressure_coords.jpg>]
-
-LaTeX Warning: Reference `setup2' on page 20 undefined on input line 281.
-
-
-LaTeX Warning: Reference `setup2' on page 20 undefined on input line 282.
-
-<./images/setup2.png, id=234, 747.79375pt x 356.33125pt>
+<./images/setup2.png, id=194, 747.79375pt x 356.33125pt>
 File: ./images/setup2.png Graphic file (type png)
 
 <use ./images/setup2.png>
-Package pdftex.def Info: ./images/setup2.png used on input line 284.
+Package pdftex.def Info: ./images/setup2.png used on input line 288.
 (pdftex.def)             Requested size: 373.89595pt x 178.16518pt.
 
-Overfull \hbox (28.89595pt too wide) in paragraph at lines 282--285
- [] 
+Overfull \hbox (28.89595pt too wide) in paragraph at lines 288--289
+ [][] 
  []
 
-<./images/circle_elasticvsfluid_heatmap.jpg, id=238, 562.1pt x 421.575pt>
+<./images/circle_elasticvsfluid_heatmap.jpg, id=198, 562.1pt x 421.575pt>
 File: ./images/circle_elasticvsfluid_heatmap.jpg Graphic file (type jpg)
 
 <use ./images/circle_elasticvsfluid_heatmap.jpg>
 Package pdftex.def Info: ./images/circle_elasticvsfluid_heatmap.jpg used on inp
-ut line 292.
+ut line 296.
 (pdftex.def)             Requested size: 393.46732pt x 295.10048pt.
 
-Overfull \hbox (48.46732pt too wide) in paragraph at lines 292--293
+Overfull \hbox (48.46732pt too wide) in paragraph at lines 296--297
  [][] 
  []
 
 [20 <./images/setup2.png>]
-<./images/FWHM_elasticvsfluid.jpg, id=248, 1100.11pt x 421.575pt>
+<./images/FWHM_elasticvsfluid.jpg, id=209, 1100.11pt x 421.575pt>
 File: ./images/FWHM_elasticvsfluid.jpg Graphic file (type jpg)
 
 <use ./images/FWHM_elasticvsfluid.jpg>
 Package pdftex.def Info: ./images/FWHM_elasticvsfluid.jpg used on input line 30
-0.
+4.
 (pdftex.def)             Requested size: 550.05367pt x 210.78697pt.
 
-Overfull \hbox (93.46486pt too wide) in paragraph at lines 299--301
-[]|  [] 
+Overfull \hbox (93.46486pt too wide) in paragraph at lines 303--306
+[]|  []
  []
 
 [21 <./images/circle_elasticvsfluid_heatmap.jpg>]
-<./images/comp_200kHz.jpg, id=254, 1065.9825pt x 421.575pt>
+<./images/comp_200kHz.jpg, id=214, 1065.9825pt x 421.575pt>
 File: ./images/comp_200kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_200kHz.jpg>
-Package pdftex.def Info: ./images/comp_200kHz.jpg used on input line 307.
+Package pdftex.def Info: ./images/comp_200kHz.jpg used on input line 312.
 (pdftex.def)             Requested size: 586.29219pt x 231.86696pt.
 
-Overfull \hbox (129.70338pt too wide) in paragraph at lines 306--308
+Overfull \hbox (129.70338pt too wide) in paragraph at lines 311--313
 []|  [] 
  []
 
-<./images/comp_210kHz.jpg, id=255, 941.5175pt x 421.575pt>
+<./images/comp_210kHz.jpg, id=215, 941.5175pt x 421.575pt>
 File: ./images/comp_210kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_210kHz.jpg>
-Package pdftex.def Info: ./images/comp_210kHz.jpg used on input line 311.
+Package pdftex.def Info: ./images/comp_210kHz.jpg used on input line 318.
 (pdftex.def)             Requested size: 564.91487pt x 252.94695pt.
 
-Overfull \hbox (108.32607pt too wide) in paragraph at lines 310--312
+Overfull \hbox (108.32607pt too wide) in paragraph at lines 317--319
 []|  [] 
  []
 
-<./images/comp_220kHz.jpg, id=256, 934.49126pt x 414.54875pt>
+<./images/comp_220kHz.jpg, id=216, 934.49126pt x 414.54875pt>
 File: ./images/comp_220kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_220kHz.jpg>
-Package pdftex.def Info: ./images/comp_220kHz.jpg used on input line 315.
+Package pdftex.def Info: ./images/comp_220kHz.jpg used on input line 324.
 (pdftex.def)             Requested size: 560.69908pt x 248.73116pt.
 
-Overfull \hbox (104.11028pt too wide) in paragraph at lines 314--316
+Overfull \hbox (104.11028pt too wide) in paragraph at lines 323--325
 []|  [] 
  []
 
 [22 <./images/FWHM_elasticvsfluid.jpg> <./images/comp_200kHz.jpg>]
-<./images/comp_230kHz.jpg, id=261, 933.4875pt x 421.575pt>
+<./images/comp_230kHz.jpg, id=223, 933.4875pt x 421.575pt>
 File: ./images/comp_230kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_230kHz.jpg>
-Package pdftex.def Info: ./images/comp_230kHz.jpg used on input line 319.
+Package pdftex.def Info: ./images/comp_230kHz.jpg used on input line 330.
 (pdftex.def)             Requested size: 560.09683pt x 252.94695pt.
 
-Overfull \hbox (103.50803pt too wide) in paragraph at lines 318--320
+Overfull \hbox (103.50803pt too wide) in paragraph at lines 329--331
 []|  [] 
  []
 
-<./images/comp_240kHz.jpg, id=262, 927.465pt x 419.5675pt>
+<./images/comp_240kHz.jpg, id=224, 927.465pt x 419.5675pt>
 File: ./images/comp_240kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_240kHz.jpg>
-Package pdftex.def Info: ./images/comp_240kHz.jpg used on input line 323.
+Package pdftex.def Info: ./images/comp_240kHz.jpg used on input line 336.
 (pdftex.def)             Requested size: 556.48329pt x 251.74243pt.
 
-Overfull \hbox (99.89449pt too wide) in paragraph at lines 322--324
+Overfull \hbox (99.89449pt too wide) in paragraph at lines 335--337
 []|  [] 
  []
 
 [23 <./images/comp_210kHz.jpg> <./images/comp_220kHz.jpg>]
-<./images/comp_250kHz.jpg, id=267, 924.45375pt x 421.575pt>
+<./images/comp_250kHz.jpg, id=231, 924.45375pt x 421.575pt>
 File: ./images/comp_250kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_250kHz.jpg>
-Package pdftex.def Info: ./images/comp_250kHz.jpg used on input line 327.
+Package pdftex.def Info: ./images/comp_250kHz.jpg used on input line 342.
 (pdftex.def)             Requested size: 554.67653pt x 252.94695pt.
 
-Overfull \hbox (98.08772pt too wide) in paragraph at lines 326--328
+Overfull \hbox (98.08772pt too wide) in paragraph at lines 341--343
 []|  [] 
  []
 
-<./images/comp_260kHz.jpg, id=268, 920.43875pt x 421.575pt>
+<./images/comp_260kHz.jpg, id=232, 920.43875pt x 421.575pt>
 File: ./images/comp_260kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_260kHz.jpg>
-Package pdftex.def Info: ./images/comp_260kHz.jpg used on input line 331.
+Package pdftex.def Info: ./images/comp_260kHz.jpg used on input line 348.
 (pdftex.def)             Requested size: 552.26752pt x 252.94695pt.
 
-Overfull \hbox (95.67871pt too wide) in paragraph at lines 330--332
+Overfull \hbox (95.67871pt too wide) in paragraph at lines 347--349
 []|  [] 
  []
 
 [24 <./images/comp_230kHz.jpg> <./images/comp_240kHz.jpg>]
-<./images/comp_270kHz.jpg, id=273, 921.4425pt x 421.575pt>
+<./images/comp_270kHz.jpg, id=239, 921.4425pt x 421.575pt>
 File: ./images/comp_270kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_270kHz.jpg>
-Package pdftex.def Info: ./images/comp_270kHz.jpg used on input line 335.
+Package pdftex.def Info: ./images/comp_270kHz.jpg used on input line 354.
 (pdftex.def)             Requested size: 552.86977pt x 252.94695pt.
 
-Overfull \hbox (96.28096pt too wide) in paragraph at lines 334--336
+Overfull \hbox (96.28096pt too wide) in paragraph at lines 353--355
 []|  [] 
  []
 
-<./images/comp_280kHz.jpg, id=274, 917.4275pt x 421.575pt>
+<./images/comp_280kHz.jpg, id=240, 917.4275pt x 421.575pt>
 File: ./images/comp_280kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_280kHz.jpg>
-Package pdftex.def Info: ./images/comp_280kHz.jpg used on input line 339.
+Package pdftex.def Info: ./images/comp_280kHz.jpg used on input line 360.
 (pdftex.def)             Requested size: 550.46075pt x 252.94695pt.
 
-Overfull \hbox (93.87195pt too wide) in paragraph at lines 338--340
+Overfull \hbox (93.87195pt too wide) in paragraph at lines 359--361
 []|  [] 
  []
 
 [25 <./images/comp_250kHz.jpg> <./images/comp_260kHz.jpg>]
-<./images/comp_290kHz.jpg, id=280, 908.39375pt x 421.575pt>
+<./images/comp_290kHz.jpg, id=248, 908.39375pt x 421.575pt>
 File: ./images/comp_290kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_290kHz.jpg>
-Package pdftex.def Info: ./images/comp_290kHz.jpg used on input line 343.
+Package pdftex.def Info: ./images/comp_290kHz.jpg used on input line 366.
 (pdftex.def)             Requested size: 545.04047pt x 252.94695pt.
 
-Overfull \hbox (88.45166pt too wide) in paragraph at lines 342--344
+Overfull \hbox (88.45166pt too wide) in paragraph at lines 365--367
 []|  [] 
  []
 
-<./images/comp_300kHz.jpg, id=281, 914.41624pt x 421.575pt>
+<./images/comp_300kHz.jpg, id=249, 914.41624pt x 421.575pt>
 File: ./images/comp_300kHz.jpg Graphic file (type jpg)
 
 <use ./images/comp_300kHz.jpg>
-Package pdftex.def Info: ./images/comp_300kHz.jpg used on input line 347.
+Package pdftex.def Info: ./images/comp_300kHz.jpg used on input line 372.
 (pdftex.def)             Requested size: 548.65398pt x 252.94695pt.
 
-Overfull \hbox (92.06517pt too wide) in paragraph at lines 346--348
+Overfull \hbox (92.06517pt too wide) in paragraph at lines 371--373
 []|  [] 
  []
 
 [26 <./images/comp_270kHz.jpg> <./images/comp_280kHz.jpg>] [27 <./images/comp_2
 90kHz.jpg> <./images/comp_300kHz.jpg>]
-<./images/setup3.png, id=292, 747.79375pt x 356.33125pt>
+<./images/setup3.png, id=264, 747.79375pt x 356.33125pt>
 File: ./images/setup3.png Graphic file (type png)
 
 <use ./images/setup3.png>
-Package pdftex.def Info: ./images/setup3.png used on input line 362.
+Package pdftex.def Info: ./images/setup3.png used on input line 389.
 (pdftex.def)             Requested size: 373.89595pt x 178.16518pt.
 
-Overfull \hbox (28.89595pt too wide) in paragraph at lines 362--363
+Overfull \hbox (28.89595pt too wide) in paragraph at lines 389--390
  [][] 
  []
 
 [28 <./images/setup3.png>]
-<./images/fluidvselastic_vertebrae_rms.png, id=304, 845.40843pt x 316.18124pt>
+<./images/fluidvselastic_vertebrae_rms.png, id=275, 845.40843pt x 316.18124pt>
 File: ./images/fluidvselastic_vertebrae_rms.png Graphic file (type png)
 
 <use ./images/fluidvselastic_vertebrae_rms.png>
 Package pdftex.def Info: ./images/fluidvselastic_vertebrae_rms.png used on inpu
-t line 370.
+t line 397.
 (pdftex.def)             Requested size: 591.78186pt x 221.32535pt.
 
-Overfull \hbox (135.19305pt too wide) in paragraph at lines 369--371
+Overfull \hbox (135.19305pt too wide) in paragraph at lines 396--398
 []|  [] 
  []
 
 [29 <./images/fluidvselastic_vertebrae_rms.png (PNG copy)>]
-("Spine Simulation.bbl")
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 384.
- [30]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 384.
+<./images/smoothed_vertebrae.png, id=290, 779.16093pt x 316.18124pt>
+File: ./images/smoothed_vertebrae.png Graphic file (type png)
+
+<use ./images/smoothed_vertebrae.png>
+Package pdftex.def Info: ./images/smoothed_vertebrae.png used on input line 405
+.
+(pdftex.def)             Requested size: 545.40894pt x 221.32535pt.
+
+Overfull \hbox (88.82013pt too wide) in paragraph at lines 404--406
+[]|  [] 
+ []
+
+<./images/max_p_smoothed_vert.png, id=293, 844.65562pt x 316.18124pt>
+File: ./images/max_p_smoothed_vert.png Graphic file (type png)
+
+<use ./images/max_p_smoothed_vert.png>
+Package pdftex.def Info: ./images/max_p_smoothed_vert.png used on input line 41
+1.
+(pdftex.def)             Requested size: 591.25491pt x 221.32535pt.
+
+Overfull \hbox (134.6661pt too wide) in paragraph at lines 410--412
+[]|  [] 
+ []
+
+[30 <./images/smoothed_vertebrae.png (PNG copy)>] [31 <./images/max_p_smoothed_
+vert.png (PNG copy)>] ("Spine Simulation.bbl")
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 428.
+ [32]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 428.
  ("Spine Simulation.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 384.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 384.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 428.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 428.
 Package rerunfilecheck Info: File `"Spine Simulation".out' has not changed.
-(rerunfilecheck)             Checksum: 32B022B668DE0B4F37119440595A1312;937.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 384.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 428.
  ) 
 Here is how much of TeX's memory you used:
- 6766 strings out of 493334
- 98169 string characters out of 3131088
- 187078 words of memory out of 3000000
- 10072 multiletter control sequences out of 15000+200000
+ 6780 strings out of 493334
+ 98487 string characters out of 3131088
+ 190728 words of memory out of 3000000
+ 10067 multiletter control sequences out of 15000+200000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,12n,28p,1404b,351s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,12n,25p,1475b,351s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
 m/cmbx10.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmbx12.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX 2.9/fonts/t
@@ -1270,9 +1275,9 @@ s/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX
 ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Rui/AppData/L
 ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Rui
 /AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Spine Simulation.pdf" (30 pages, 1760855 bytes).
+Output written on "Spine Simulation.pdf" (32 pages, 2054388 bytes).
 PDF statistics:
  390 PDF objects out of 1000 (max. 8388607)
- 104 named destinations out of 1000 (max. 500000)
- 310 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 121 named destinations out of 1000 (max. 500000)
+ 216 words of extra memory for PDF output out of 10000 (max. 10000000)
 

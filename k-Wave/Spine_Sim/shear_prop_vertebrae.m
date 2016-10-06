@@ -9,15 +9,15 @@ clear all;
 scale = 1;
 
 % create the computational grid
-Nx = 216;           % number of grid points in the x (row) direction
-Ny = 216;           % number of grid points in the y (column) direction
+Nx = 472;           % number of grid points in the x (row) direction
+Ny = 472;           % number of grid points in the y (column) direction
 PML_size = 20;
 x_length = 100e-3;  %length in x-direction [mm]
 dx = x_length/Nx;    	% grid point spacing in the x direction [m]
 dy = dx;            % grid point spacing in the y direction [m]
 kgrid = makeGrid(Nx, dx, Ny, dy);
 vsound = 1580; %[m/s]
-plot_type = 0;      % 0-RMS data, 1-max pressure data
+plot_type = 1;      % 0-RMS data, 1-max pressure data
 
 % create the time array
 cfl   = 0.05;
@@ -106,7 +106,7 @@ for source_freq2 = initial:step_size:final
     sensor.record_start_index = i;
 
     % assign the input options for fluid simulation
-    input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false};
+    input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false,'Smooth', [true, true, true]};
 
     % run the fluid simulation
     sensor_data_fluid = kspaceFirstOrder2D(kgrid, medium, source, sensor, input_args{:});
@@ -187,17 +187,18 @@ for source_freq2 = initial:step_size:final
 
     % Here I define the frequencies of my source points for the elastic
     % simulation
-    source.s_mode = 'dirichlet';
-    [source.sxx, source.sxy, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
+    source.s_mode = 'additive';
+    %[source.sxx, source.sxy, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
+        %source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
+   [source.sxx, source.syy] = two_transducers_elastic(Nx,Ny,source.s_mask,...
         source_freq1,source_freq2,source_mag1,source_mag2,kgrid.t_array,kgrid,medium );
-   
     
     % create a display mask to display the transducer for the elastic
     % simulation
     display_mask = source.s_mask;
 
     % assign the input options
-    input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false};
+    input_args = {'DisplayMask', display_mask, 'PMLInside', false, 'PlotPML', false, 'Smooth', [true, true, true]};
 
     % run the fluid simulation
     sensor_data_elastic = pstdElastic2D(kgrid, medium, source, sensor, input_args{:});
