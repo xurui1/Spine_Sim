@@ -26,7 +26,7 @@ This document will informally outline my ultrasound code and results. I have con
 
 I'll start with an overview of the k-wave code for my own understanding and benefit. Feel free to skip this section. 
 
-\subsection*{Governing equations for acoustic propagation}
+\subsection*{Governing equations for acoustic (compressional) propagation}
 
 The k-wave toolbox is used to simulate the propagation of pressure waves through media, which is described by a set of couple first-order partial differential equations or the wave equation, a second-order partial differential equation. K-wave uses the first order equation, 
 \begin{align}
@@ -60,6 +60,14 @@ p &= c_0^2 \left(\rho + \textbf{d}\cdot\nabla \rho_0 + \dfrac{B}{2A} \dfrac{\rho
 \end{align}
 
 We can generate acoustic waves in a medium by adding a force source term \textbf{S$_\textbf{F}$} to the momentum conservation equation and a mass source term and a mass source term \textbf{S$_\textbf{M}$} to the mass conservation equation.
+
+\subsection{Governing equations for shear wave propagation}
+
+The k-wave toolbox is also able to simulate the propagation of elastic waves, which will be useful for understanding ultrasound propagation through bone. The k-wave code for compressional and shear wave propagation through elastic media is based on the Kelvin-Voight Model, which for an isotropic model is:
+\begin{equation} \label{Kelvinvoight}
+\sigma_{ij} = \lambda \delta_{ij} \epsilon_{kk} + 2 \mu \epsilon_{ij} + \chi \delta_{ij} \dfrac{\partial}{\partial t} \epsilon_{kk} + 2 \eta \dfrac{\partial}{\partial t} \epsilon_{ij} 
+\end{equation}
+where $\sigma$ is the stress tensor, $\epsilon$ is the strain tensor, $\lambda$ and $\mu$ are the Lam\'{e} parameters where $\mu$ is the shear modulus and $\chi$ and $\eta$ are the compressional and shear viscosity coefficients. The relationship between shear modulus and density is $\mu = c_s^2\rho_0$ and the relationship between Lam\'{e}'s first parameter, shear modulus, and density is $\lambda = c_p^2 \rho_0 - 2 \mu$. In these relationships, $c_s$ is the shear speed of sound and $c_p$ is the compressional speed of sound. \autoref{Kelvinvoight} states that 
 
 \subsection*{Pseudospectral method}
 
@@ -413,7 +421,29 @@ The image of the vertebra was binarized using the matlab function im2bw, where w
 \end{figure} 
 
 
-In the smoothed medium fluid case the pressure profile is more highly peaked than in the previous un-smoothed case. In both figures (\ref{fluidvselastic_vertebrae_rms} and \ref{smoothed_vertebrae}), the data is normalized to [-1 1], which is why the incoming wave intensity in \ref{smoothed_vertebrae} appears to be lower as it is a smaller fraction of the maximum RMS pressure profile. In the elastic simulation, there are very sharp peaks both inside the vertebra and outside. What is going on here? Is it possible that shear waves are propagating along the interface of the vertebra and constructively interfering at these points? Are these highly peaked maxima the result of standing waves, mode conversion, erroneous assignment of grid points as bone or water? I need to perform some tests of the elastic simulation in simpler geometries before I move to real data from the `visible human project' in order to gain a better understanding of shear wave propagation in k-wave. 
+In the smoothed medium fluid case the pressure profile is more highly peaked than in the previous un-smoothed case. In both figures (\ref{fluidvselastic_vertebrae_rms} and \ref{smoothed_vertebrae}), the data is normalized to [-1 1], which is why the incoming wave intensity in \ref{smoothed_vertebrae} appears to be lower as it is a smaller fraction of the maximum RMS pressure profile. In the elastic simulation, there are very sharp peaks both inside the vertebra and outside. What is going on here? Is it possible that shear waves are propagating along the interface of the vertebra and constructively interfering at these points? Are these highly peaked maxima the result of standing waves, mode conversion, erroneous assignment of grid points as bone or water? I'd need to perform some tests of the elastic simulation in simpler geometries before I move to real data from the `visible human project' in order to gain a better understanding of shear wave propagation in k-wave. 
+
+\section{Optimization of Geometry}
+
+Since I do not have a pile of time to complete my investigations, I have started to play around with some potential parameters for ultrasound delivery to the spine. There are many parameters that can be optimized, and ideally this procedure would be completed through some sort of machine learning algorithm such as gradient descent with feature normalization, or perhaps some sort of saddle point technique. This approach will become quite complicated, and I won't have time to implement a proper version during this rotation. However, it will still worthwhile to play around with some of the transducer parameters. 
+
+The first parameter I wanted to investigate is the size of the ultrasound transducer, which I modified by changing the angle each transducer subtended  $\pi/24 \geq \Theta \leq \pi/2$ radians. The two transducers were kept centred at $\pi/4$ radians for transducer 1 and $3\pi/4$ radians for transducer 2. In this case, I kept the frequencies of the two transducers the same $f_1 = f_2 = 0.25$MHz. The metric I am interested in for this trial is the average ultrasound RMS pressure and Maximum pressure within the spinal canal. The results are shown in \autoref{transducer_angle_original}.
+
+\begin{figure}[H]
+\includegraphics[scale=0.8]{transducer_angle_original}
+\caption{The RMS and maximum pressure within the spinal canal for various sizes of transducer, subtending between $\pi/24$ radians and $\pi/2$ radians.}
+\end{figure}
+
+In the fluid simulation, the relationship between both RMS pressure and maximum pressure is approximately linear. This is intuitive because by increasing the size of the transducer, we are increasing the total force added to the system. This relationship is slightly difference for the elastic simulation. There is a strange bump at low angles for the RMS pressure that I'm not sure I can explain. Repeating the simulation with higher spatial and temporal resolution might be a good idea. For small angles and maximum pressure, we can see that the relationship between angle subtended and pressure is approximately linear. However, for larger subtended angles we see that the pressure within the spinal canal plateaus and actually drops. This may be due to mode conversion to shear waves along the spinous and transverse processes. Neat. 
+
+
+Another metric to consider is the RMS and maximum pressure within the spinal canal, normalized by the maximum RMS pressure point and the Maximum pressure point within the entire simulated system. This metric informs the relative efficiency of ultrasound deposition within the spinal canal, and increasing this efficiency is desirable to avoid excess heating of other structures. The results for normalized RMS and maximum pressure within the spinal canal as a function of angle subtended by each transducer is shown in \autoref{transducer_angle_results} for both fluid and elastic simulations.
+
+\begin{figure}[H]
+\includegraphics[scale=0.8]{transducer_angle_results}
+\caption{The normalized RMS and maximum pressure within the spinal canal depends on the angle subtended by the transducers. These results are for identical transducers driven at $f_1 = f_2 = 0.25$MHz.} \label{transducer_angle_results}
+\end{figure}
+
 
 
 
