@@ -6,8 +6,30 @@ Max_p = 0;
 RMS_pnorm = 0;
 Max_pnorm = 0;
 
-absolute_max_p = max(pmax_data(:));
-absolute_max_prms = max(prms_data(:));
+%absolute_max_p = max(pmax_data(:));
+%absolute_max_prms = max(prms_data(:));
+
+absolute_max_p = 0;
+absolute_max_prms = 0;
+for i = 2:Nx-1
+    for j = 2:Ny-1
+        sum = 0;
+        for i_local = i-1:i+1
+            for j_local = j-1:j+1
+                sum = sum+medium_img(i_local,j_local);
+            end
+        end
+        if sum > 0 && sum < 9
+           if pmax_data(i,j) > absolute_max_p
+               absolute_max_p = pmax_data(i,j);
+           end
+           if prms_data(i,j) > absolute_max_prms
+               absolute_max_prms = prms_data(i,j);
+           end
+        end
+    end
+end
+
 
 for i = 1:Nx
     for j = 1:Ny

@@ -61,13 +61,29 @@ p &= c_0^2 \left(\rho + \textbf{d}\cdot\nabla \rho_0 + \dfrac{B}{2A} \dfrac{\rho
 
 We can generate acoustic waves in a medium by adding a force source term \textbf{S$_\textbf{F}$} to the momentum conservation equation and a mass source term and a mass source term \textbf{S$_\textbf{M}$} to the mass conservation equation.
 
-\subsection{Governing equations for shear wave propagation}
+\subsection*{Governing equations for shear wave propagation}
 
 The k-wave toolbox is also able to simulate the propagation of elastic waves, which will be useful for understanding ultrasound propagation through bone. The k-wave code for compressional and shear wave propagation through elastic media is based on the Kelvin-Voight Model, which for an isotropic model is:
 \begin{equation} \label{Kelvinvoight}
 \sigma_{ij} = \lambda \delta_{ij} \epsilon_{kk} + 2 \mu \epsilon_{ij} + \chi \delta_{ij} \dfrac{\partial}{\partial t} \epsilon_{kk} + 2 \eta \dfrac{\partial}{\partial t} \epsilon_{ij} 
 \end{equation}
-where $\sigma$ is the stress tensor, $\epsilon$ is the strain tensor, $\lambda$ and $\mu$ are the Lam\'{e} parameters where $\mu$ is the shear modulus and $\chi$ and $\eta$ are the compressional and shear viscosity coefficients. The relationship between shear modulus and density is $\mu = c_s^2\rho_0$ and the relationship between Lam\'{e}'s first parameter, shear modulus, and density is $\lambda = c_p^2 \rho_0 - 2 \mu$. In these relationships, $c_s$ is the shear speed of sound and $c_p$ is the compressional speed of sound. \autoref{Kelvinvoight} states that 
+where $\sigma$ is the stress tensor, $\epsilon$ is the strain tensor, $\lambda$ and $\mu$ are the Lam\'{e} parameters where $\mu$ is the shear modulus and $\chi$ and $\eta$ are the compressional and shear viscosity coefficients. The relationship between shear modulus and density is $\mu = c_s^2\rho_0$ and the relationship between Lam\'{e}'s first parameter, shear modulus, and density is $\lambda = c_p^2 \rho_0 - 2 \mu$. In these relationships, $c_s$ is the shear speed of sound and $c_p$ is the compressional speed of sound. \autoref{Kelvinvoight} states that the relationship between stress and instantaneous strain is parametrized by the Lam\'{e} parameters and the time dependency of the relationship is given by temporal derivatives of strain, which are parametrized by the compressional and shear viscosity coefficients. \autoref{Kelvinvoight} can be rewritten using the relationship between strain and small particle displacements $u_i$:
+\begin{equation}
+\epsilon_{ij} = \dfrac{1}{2} \left(\dfrac{\partial u_i}{\partial x_j} + \dfrac{\partial u_j}{\partial x_i} \right)
+\end{equation}
+which allows \autoref{Kelvinvoight} to be rewritten as a function of particle velocity $v_i = \partial u_i / \partial t$:
+\begin{equation} \label{Kelvinvoightvelocity}
+\dfrac{\partial \sigma_{ij}}{\partial t} = \lambda \delta_{ij} \dfrac{\partial v_k}{\partial x_k} + \mu \left( \dfrac{\partial v_i}{\partial x_j} + \dfrac{\partial v_j}{\partial x_i} \right) + \chi \delta_{ij} \dfrac{\partial^2 v_k}{\partial x_k \partial t} + \eta \left(\dfrac{\partial^2 v_i}{\partial x_j \partial t} + \dfrac{\partial^2 v_j}{\partial x_i \partial t} \right) 
+\end{equation}
+\autoref{Kelvinvoightvelocity} and an equation for the conservation of momentum:
+\begin{equation}
+\dfrac{\partial v_i}{\partial t} = \dfrac{1}{\rho_0} \dfrac{\partial \sigma_{ij}}{\partial x_j}
+\end{equation}
+are the coupled first order partial differential equations that we use to model the propagation of linear compressional and shear waves in an isotropic viscoelastic solid. The power law pre-factors for compressional and shear absorption ($\alpha_{0,p}$ and $\alpha_{0,s}$) in elastic media without high loss are given by:
+\begin{equation}
+\alpha_{0,p} = \dfrac{\chi + 2 \eta}{2 \rho_0 c_p^3}, \quad \quad \quad \alpha_{0,s} = \dfrac{\eta}{2\rho_0 c_s^3}
+\end{equation}
+This set of governing equations for ultrasound propagation in elastic media are solved in the same manner as in fluid media - by using a Pseudospectral Time Domain method. 
 
 \subsection*{Pseudospectral method}
 
@@ -107,6 +123,8 @@ if N$_{\xi}$ is odd. The algorithm follows a simple procedure, where pressure is
 \text{L}_{\text{d}} &= \tau \mathcal{F}^{-1} \left[k^{y-2} \mathcal{F} \left[\frac{\partial}{\partial t} \rho^n \right] \right] + \eta \mathcal{F}^{-1} \left[ k^{y-1} \mathcal{F}\left[\rho^{n+1}\right] \right]\\
 &= \tau \mathcal{F}^{-1} \left[k^{y-2} \mathcal{F} \left[\rho_0 \sum_{\xi} \frac{\partial}{\partial \xi} x_{\xi}^{n+\frac{1}{2}} \right] \right] + \eta \mathcal{F}^{-1} \left[ k^{y-1} \mathcal{F}\left[\rho^{n+1}\right] \right]
 \end{align}
+
+The method is similar for the elastic simulation. The spatial gradients of the stress field are first calculated using the Fourier collocation spectral method. Next, the particle velocities are updated using a finite difference time step. Then, the spatial gradients of the velocity field is calculated using the Fourier collocation spectral method, and then the spatial gradient of the time derivative of the particle velocity is calculated. Finally, the stress field is updated using the results from the previous steps. 
 
 \subsection*{Accuracy of the simulation}
 
@@ -388,17 +406,17 @@ The half-maximum pressure profiles for the inclusion examples were not exactly a
 This can be modified by setting the value sensor.record\_start\_index to the time at which the US field will have reached the furthest point in the computational box. 
 
 
-\section*{System 3: 2D vertebrae shaped inclusion}
+\section*{System 3: 2D vertebra shaped inclusion}
 
-The eventual goal of this code is to produce a simulation of ultrasound interacting with a vertebrae. We start with 2D simulations to reduce the computational overhead, and plan to progress to three dimensional simulations. In this simulation, we build the environment by importing an image, rather than building the inclusion using one of the in-house functions. I found a simple image of a vertebrae online (\href{https://www.cedars-sinai.edu/Patients/Programs-and-Services/Spine-Center/The-Patient-Guide/Anatomy-of-the-Spine/Vertebrae-of-the-Spine.aspx}{Vertebra}), and then modified it to remove colour, mark-ups, and to allow for the placement of the vertebrae near the focal point of the two transducers. The image of the vertebrae and its placement used for this system is shown in the following \autoref{setup3_image}.
+The eventual goal of this code is to produce a simulation of ultrasound interacting with a vertebra. We start with 2D simulations to reduce the computational overhead, and plan to progress to three dimensional simulations. In this simulation, we build the environment by importing an image, rather than building the inclusion using one of the in-house functions. I found a simple image of a vertebra online (\href{https://www.cedars-sinai.edu/Patients/Programs-and-Services/Spine-Center/The-Patient-Guide/Anatomy-of-the-Spine/Vertebrae-of-the-Spine.aspx}{Vertebra}), and then modified it to remove colour, mark-ups, and to allow for the placement of the vertebra near the focal point of the two transducers. The image of the vertebra and its placement used for this system is shown in the following \autoref{setup3_image}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{setup3.png}
-\caption{I used an online image I found to construct the vertebrae, and placed the vertebrae approximately at the focus of the transducers.}\label{setup3_image}
+\caption{I used an online image I found to construct the vertebra, and placed the vertebra approximately at the focus of the transducers.}\label{setup3_image}
 \end{figure}
 
-The image of the vertebra was binarized using the matlab function im2bw, where white (zero) represents water and black (one) represents bone, in order to use the image of the vertebrae to set the properties of the medium. The im2bw function uses a cut-off to choose whether a point is assigned as 0 (water) or 1. (bone) This cut-off may result in the erroneous assignment of points within the vertebrae as 0 or points on the exterior of the vertebrae as 1. The image must also be resized such that there is one binary grid point per computational point in the simulation `medium'. As explained in \cite{muir1992modeling,vafaeian2014finite}, the usage of Cartesian grids to represent irregular boundaries can lead to a `staircase' effect, where a boundary that is not aligned with a Cartesian axis becomes irregular. However, these methods use real space calculations whereas the pseudospectral method supposedly only requires two grid points per wavelength, or four points per wavelength for heterogeneous media. I've naively used the binarizing method described above, and performed both fluid and elastic simulations. The RMS pressure results are shown in the following \autoref{fluidvselastic_vertebrae_rms}.
+The image of the vertebra was binarized using the matlab function im2bw, where white (zero) represents water and black (one) represents bone, in order to use the image of the vertebra to set the properties of the medium. The im2bw function uses a cut-off to choose whether a point is assigned as 0 (water) or 1. (bone) This cut-off may result in the erroneous assignment of points within the vertebra as 0 or points on the exterior of the vertebra as 1. The image must also be resized such that there is one binary grid point per computational point in the simulation `medium'. As explained in \cite{muir1992modeling,vafaeian2014finite}, the usage of Cartesian grids to represent irregular boundaries can lead to a `staircase' effect, where a boundary that is not aligned with a Cartesian axis becomes irregular. However, these methods use real space calculations whereas the pseudospectral method supposedly only requires two grid points per wavelength, or four points per wavelength for heterogeneous media. I've naively used the binarizing method described above, and performed both fluid and elastic simulations. The RMS pressure results are shown in the following \autoref{fluidvselastic_vertebrae_rms}.
 
 \begin{figure}[H]
 \hspace*{-4cm}
@@ -423,15 +441,17 @@ The image of the vertebra was binarized using the matlab function im2bw, where w
 
 In the smoothed medium fluid case the pressure profile is more highly peaked than in the previous un-smoothed case. In both figures (\ref{fluidvselastic_vertebrae_rms} and \ref{smoothed_vertebrae}), the data is normalized to [-1 1], which is why the incoming wave intensity in \ref{smoothed_vertebrae} appears to be lower as it is a smaller fraction of the maximum RMS pressure profile. In the elastic simulation, there are very sharp peaks both inside the vertebra and outside. What is going on here? Is it possible that shear waves are propagating along the interface of the vertebra and constructively interfering at these points? Are these highly peaked maxima the result of standing waves, mode conversion, erroneous assignment of grid points as bone or water? I'd need to perform some tests of the elastic simulation in simpler geometries before I move to real data from the `visible human project' in order to gain a better understanding of shear wave propagation in k-wave. 
 
-\section{Optimization of Geometry}
+\section*{Transducer Optimization}
 
 Since I do not have a pile of time to complete my investigations, I have started to play around with some potential parameters for ultrasound delivery to the spine. There are many parameters that can be optimized, and ideally this procedure would be completed through some sort of machine learning algorithm such as gradient descent with feature normalization, or perhaps some sort of saddle point technique. This approach will become quite complicated, and I won't have time to implement a proper version during this rotation. However, it will still worthwhile to play around with some of the transducer parameters. 
+
+\subsection*{Transducer size}
 
 The first parameter I wanted to investigate is the size of the ultrasound transducer, which I modified by changing the angle each transducer subtended  $\pi/24 \geq \Theta \leq \pi/2$ radians. The two transducers were kept centred at $\pi/4$ radians for transducer 1 and $3\pi/4$ radians for transducer 2. In this case, I kept the frequencies of the two transducers the same $f_1 = f_2 = 0.25$MHz. The metric I am interested in for this trial is the average ultrasound RMS pressure and Maximum pressure within the spinal canal. The results are shown in \autoref{transducer_angle_original}.
 
 \begin{figure}[H]
 \includegraphics[scale=0.8]{transducer_angle_original}
-\caption{The RMS and maximum pressure within the spinal canal for various sizes of transducer, subtending between $\pi/24$ radians and $\pi/2$ radians.}
+\caption{The averaged RMS and maximum pressure within the spinal canal for various sizes of transducer, subtending between $\pi/24$ radians and $\pi/2$ radians.}
 \end{figure}
 
 In the fluid simulation, the relationship between both RMS pressure and maximum pressure is approximately linear. This is intuitive because by increasing the size of the transducer, we are increasing the total force added to the system. This relationship is slightly difference for the elastic simulation. There is a strange bump at low angles for the RMS pressure that I'm not sure I can explain. Repeating the simulation with higher spatial and temporal resolution might be a good idea. For small angles and maximum pressure, we can see that the relationship between angle subtended and pressure is approximately linear. However, for larger subtended angles we see that the pressure within the spinal canal plateaus and actually drops. This may be due to mode conversion to shear waves along the spinous and transverse processes. Neat. 
@@ -441,11 +461,35 @@ Another metric to consider is the RMS and maximum pressure within the spinal can
 
 \begin{figure}[H]
 \includegraphics[scale=0.8]{transducer_angle_results}
-\caption{The normalized RMS and maximum pressure within the spinal canal depends on the angle subtended by the transducers. These results are for identical transducers driven at $f_1 = f_2 = 0.25$MHz.} \label{transducer_angle_results}
+\caption{The averaged and normalized RMS and maximum pressure within the spinal canal depends on the angle subtended by the transducers. These results are for identical transducers driven at $f_1 = f_2 = 0.25$MHz.} \label{transducer_angle_results}
 \end{figure}
 
+Now, these results are from the absolute maxima of the simulation, which is not useful if these maxima occur at the transducer. The transducer pressure was set to 0.5Pa, but it would be worthwhile normalizing by the maximum pressure at the bone-fluid interface because that heating at this interface is the main concern. The results are shown in \autoref{transducer_angle_bonenorm}
+\begin{figure}[H]
+\includegraphics[scale=0.8]{transducer_angle_bonenorm}
+\caption{The averaged and normalized (by maximum bone pressure) RMS and maximum pressure within the spinal canal for identical transducers $f_1 = f_2 = $0.25Mhz.} \label{transducer_angle_bonenorm}
+\end{figure}
+The results when normalized by the maximum intensity along the bone-fluid interface show essentially the same result. The result isn't exactly the same because I used smaller $\Delta \Theta$ steps to speed up the simulation. This suggests that the peak pressure is generally found at the bone-fluid interface. 
 
+\subsection*{Transducer Size and Frequency}
 
+Now, suppose I am interested in optimizing the Transducer size and the frequency $f_1$ as well. I now have a two dimensional parameter space to play with. In this test, I investigate 0.2Mhz$ \geq f_1 \leq $0.3Mhz for the same range of transducer sizes from the previous test. The averaged RMS and maximum pressure within the spinal canal is shown in \autoref{freq_angle_p}
+\begin{figure}[H]
+\includegraphics[scale=0.8]{freq_angle_p}
+\caption{The average RMS and maximum pressure within the spinal canal for   0.2MHz $\geq f_1 \leq$ 0.3MHz and $f_2 = 0.25$Mhz. The angle subtended by the transducers were increased from $\pi/24$ radians to $\pi/2$ radians}
+\label{freq_angle_p}
+\end{figure}
+\autoref{freq_angle_p} shows a few general trends. The first trend is that the pressure increases as the transducer gets larger. This trend is common among all plots. However, there is a frequency dependence to this relationship. We can see that the slope of this increase is more pronounced for when $f_1 \neq 0.25$Mhz. For example, the pressure maxima in these results generally occur at $f_1 \approx 0.2$Mhz, with local maxima of similar magnitude near $f_1 \approx 0.28$Mhz. Something seems to be going on in the Elastic RMS pressure plot when $f_1 = 0.21$Mhz. The RMS pressures are significantly higher for this frequency than for other frequencies. 
+
+  
+In order to glean more information about the safety of the ultrasound propagation, I've normalized the results by the maximum pressure at the bone interface. These normalized results are shown in \autoref{freq_angl_pnorm}. 
+\begin{figure}[H]
+\includegraphics[scale=0.8]{freq_angle_pnorm}
+\caption{The averaged  RMS and maximum pressure within the spinal canal for   0.2 MHz $\geq f_1 \leq$ 0.3 MHz and $f_2 = 0.25$ MHz, normalized by the peak pressure at the bone-fluid interface.}
+\label{freq_angle_pnorm}
+\end{figure}
+
+The normalized results are slightly less clear than the absolute pressure results. This is because normalizing removes the bias towards larger transducers. These results are perhaps better for informing what not to do. For example, excluding the results for the smallest transducer, we see minima around $f_1 = 0.25$ MHz. In the elastic simulation, we again see that when $f_1 = 0.21$ MHz the RMS pressure within the spinal canal is significantly higher than for other frequencies. This is more pronounced in the elastic simulation than the fluid simulation, where we see another peak at 0.28 MHz. The result for $f_1$ = 0.2-0.21 MHz is the only one where the normalized pressure exceeds 50\% of the maximum pressure in the simulation. 
 
 \newpage
 \bibliography{lit}{}

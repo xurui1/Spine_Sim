@@ -33,8 +33,8 @@ dTheta = pi/48;              % [rad]
 Theta_final = pi/4-pi/48;          % [rad]
 
 % define changing source (source 2) 
-initial = 0.25e6;            % [Hz]
-final = 0.25e6;              % [Hz]
+initial = 0.2e6;            % [Hz]
+final = 0.3e6;              % [Hz]
 step_size = 0.01e6;          % [Hz]
 Num_steps = (final - initial)/step_size;
 
@@ -58,27 +58,31 @@ freq_data = struct('frequency',[],'x_max_elastic',[],'y_max_elastic',[],...
 theta_data = struct('angle',[],'spinalcord_fluid_RMS_p',[],'spinalcord_fluid_Max_p',[],...
     'spinalcord_fluid_RMS_pnorm',[],'spinalcord_fluid_Max_pnorm',[],...
     'spinalcord_elastic_RMS_p',[],'spinalcord_elastic_Max_p',[],...
-    'spinalcord_elastic_RMS_pnorm',[],'spinalcord_elastic_Max_pnorm',[]);
+    'spinalcord_elastic_RMS_pnorm',[],'spinalcord_elastic_Max_pnorm',[],...
+    'frequency',[]);
 
-freq_tracker = 1;
 theta_tracker = 1;
 
 for theta = Theta_zero:dTheta:Theta_final
     % define two curved transducer elements
     clear source; 
+    freq_tracker = 1;
+
     
     source_mask = makedoubleSemiCircle(Nx, Ny,round((Nx)/2),round(Ny/2),...
         round(0.05*Nx/x_length), pi/4 - theta,pi/4+theta,round((Nx)/2),round(Ny/2),round(0.05*Nx/x_length),...
         3*pi/4 - theta, 3*pi/4+theta); %want the radius of the spherical transducer to be 5cm.
-    source.p_mask = source_mask;
     
-    theta_data.angle(theta_tracker) = theta;
+    theta_data.angle(theta_tracker,freq_tracker) = theta;
 
 for source_freq2 = initial:step_size:final 
-    
+    clear source;
+    source.p_mask = source_mask;
+
     %Save frequency of source 2 in freq_data
     freq_data.frequency(freq_tracker) = source_freq2;
-    
+    theta_data.frequency(theta_tracker,freq_tracker) = source_freq2;
+
     % =========================================================================
     % FLUID SIMULATION
     % =========================================================================    
@@ -192,7 +196,7 @@ for source_freq2 = initial:step_size:final
     % opposing corners of a rectangle
     clear sensor;
     sensor.mask = [1, 1, Nx, Ny].';
-    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2)
+    max_distance = 0.05 + dx*sqrt((Nx/2)^2+(Ny/2)^2);
     travel_time = max_distance /vsound;
     i = 1;
     while kgrid.t_array(i) < travel_time
@@ -250,7 +254,17 @@ for source_freq2 = initial:step_size:final
         sensor_data_elastic.p_max(FWHM_matrix == 1) = 1;
         sensor_data_elastic.p_max(contour_img == 1) = 1;
     end
+    
+    
+    % calculate RMS and max pressures within the spinal canal
+[theta_data.spinalcord_elastic_RMS_p(theta_tracker,freq_tracker),theta_data.spinalcord_elastic_Max_p(theta_tracker,freq_tracker),...
+   theta_data.spinalcord_elastic_RMS_pnorm(theta_tracker,freq_tracker),theta_data.spinalcord_elastic_Max_pnorm(theta_tracker,freq_tracker) ] ...
+= spinaldata(Nx,Ny,sensor_data_elastic.p_max,sensor_data_elastic.p_rms,medium_img);
 
+[theta_data.spinalcord_fluid_RMS_p(theta_tracker,freq_tracker),theta_data.spinalcord_fluid_Max_p(theta_tracker,freq_tracker),...
+   theta_data.spinalcord_fluid_RMS_pnorm(theta_tracker,freq_tracker),theta_data.spinalcord_fluid_Max_pnorm(theta_tracker,freq_tracker) ] ...
+= spinaldata(Nx,Ny,sensor_data_fluid.p_max,sensor_data_fluid.p_rms,medium_img);
+    
     % plot and save the rms recorded pressure and HM line
     % open new figure
     figure;
@@ -283,17 +297,10 @@ for source_freq2 = initial:step_size:final
     axis image;
     fname = sprintf('./Spine_Sim/HM_freq%d.fig', freq_data.frequency(freq_tracker));
     savefig(fname);
-
+    
+    freq_tracker = freq_tracker + 1;
+    
 end
-
-% calculate RMS and max pressures within the spinal canal
-[theta_data.spinalcord_elastic_RMS_p(theta_tracker),theta_data.spinalcord_elastic_Max_p(theta_tracker),...
-   theta_data.spinalcord_elastic_RMS_pnorm(theta_tracker),theta_data.spinalcord_elastic_Max_pnorm(theta_tracker) ] ...
-= spinaldata(Nx,Ny,sensor_data_elastic.p_max,sensor_data_elastic.p_rms,medium_img);
-
-[theta_data.spinalcord_fluid_RMS_p(theta_tracker),theta_data.spinalcord_fluid_Max_p(theta_tracker),...
-   theta_data.spinalcord_fluid_RMS_pnorm(theta_tracker),theta_data.spinalcord_fluid_Max_pnorm(theta_tracker) ] ...
-= spinaldata(Nx,Ny,sensor_data_fluid.p_max,sensor_data_fluid.p_rms,medium_img);
 
 theta_tracker = theta_tracker+1;
 
@@ -305,47 +312,71 @@ end
 
 figure;
 subplot(2,2,1);
-plot(2*theta_data.angle,theta_data.spinalcord_fluid_RMS_p);
+imagesc(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_fluid_RMS_p);
 title('Fluid RMS pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Pressure [Pa]');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 2]);
 subplot(2,2,2);
-plot(2*theta_data.angle,theta_data.spinalcord_fluid_Max_p);
+imagesc(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_fluid_Max_p);
 title('Fluid Max pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Pressure [Pa]');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 2]);
 subplot(2,2,3);
-plot(2*theta_data.angle,theta_data.spinalcord_elastic_RMS_p);
+plot(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_elastic_RMS_p);
 title('Elastic RMS pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Pressure [Pa]');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 2]);
 subplot(2,2,4);
-plot(2*theta_data.angle,theta_data.spinalcord_elastic_Max_p);
+plot(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_elastic_Max_p);
 title('Elastic Max pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Pressure [Pa]');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 2]);
 
 figure;
 subplot(2,2,1);
-plot(2*theta_data.angle,theta_data.spinalcord_fluid_RMS_pnorm);
+imagesc(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_fluid_RMS_pnorm);
 title('Fluid RMS pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Normalized Pressure');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 1]);
 subplot(2,2,2);
-plot(2*theta_data.angle,theta_data.spinalcord_fluid_Max_pnorm);
+imagesc(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_fluid_Max_pnorm);
 title('Fluid Max pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Normalized Pressure');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 1]);
 subplot(2,2,3);
-plot(2*theta_data.angle,theta_data.spinalcord_elastic_RMS_pnorm);
+plot(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_elastic_RMS_pnorm);
 title('Elastic RMS pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Normalized Pressure');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 1]);
 subplot(2,2,4);
-plot(2*theta_data.angle,theta_data.spinalcord_elastic_Max_pnorm);
+plot(2*theta_data.angle,theta_data.frequency,theta_data.spinalcord_elastic_Max_pnorm);
 title('Elastic Max pressure in spinal cord');
 xlabel('Angle subtended [rad]');
-ylabel('Normalized Pressure');
+ylabel('Frequency [Hz]');
+axis image;
+colorbar;
+caxis([0, 1]);
 
 % define plot vector
 x_vec = kgrid.x_vec(1 + PML_size:end - PML_size)*1e3;
@@ -354,14 +385,6 @@ y_vec = kgrid.y_vec(1 + PML_size:end - PML_size)*1e3;
 % calculate square of velocity magnitude
 u_e = sensor_data_elastic.ux_max_all.^2 + sensor_data_elastic.uy_max_all.^2;
 u_f = sensor_data_fluid.ux_max_all.^2 + sensor_data_fluid.uy_max_all.^2;
-
-% plot layout
-figure;
-imagesc(y_vec, x_vec, double(source_mask ));
-xlabel('y [mm]');
-ylabel('x [mm]');
-axis image;
-colormap(flipud(gray));
 
 % plot beam patterns
 figure;
