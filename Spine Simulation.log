@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  13 OCT 2016 12:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.15)  13 OCT 2016 13:27
 entering extended mode
 **"./Spine Simulation.tex"
 ("Spine Simulation.tex"
@@ -1313,19 +1313,19 @@ Overfull \hbox (29.59999pt too wide) in paragraph at lines 487--488
 
 [36 <./images/freq_angle_p.png (PNG copy)>] [37 <./images/freq_angle_pnorm.png 
 (PNG copy)>] ("Spine Simulation.bbl")
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 502.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 504.
  [38]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 502.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 504.
  ("Spine Simulation.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 502.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 502.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 504.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 504.
 Package rerunfilecheck Info: File `"Spine Simulation".out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 502.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 504.
  ) 
 Here is how much of TeX's memory you used:
  6834 strings out of 493334
@@ -1352,9 +1352,9 @@ s/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Rui/AppData/Local/Programs/MiKTeX
 ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Rui/AppData/L
 ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Rui
 /AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "Spine Simulation.pdf" (38 pages, 2240621 bytes).
+Output written on "Spine Simulation.pdf" (38 pages, 2242054 bytes).
 PDF statistics:
- 447 PDF objects out of 1000 (max. 8388607)
+ 449 PDF objects out of 1000 (max. 8388607)
  141 named destinations out of 1000 (max. 500000)
  241 words of extra memory for PDF output out of 10000 (max. 10000000)
 

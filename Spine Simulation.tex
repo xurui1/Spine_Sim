@@ -20,7 +20,7 @@
 
 \section*{Introduction}
 
-This document will informally outline my ultrasound code and results. I have constructed a simple two-dimensional simulation using existing code from the k-wave package. The eventual goal is to simulate ultrasound propagation through vertebrae and optimize a set of transducers to deliver ultrasound to the spinal cord. 
+This document will informally outline my ultrasound code and results. I have constructed a simple two-dimensional simulation using existing code from the k-wave package. The eventual goal is to simulate ultrasound propagation through vertebrae and optimize a set of transducers to deliver ultrasound to the spinal cord. The code and this document is available at 
 
 \section*{The k-wave Toolbox}
 
@@ -490,6 +490,8 @@ In order to glean more information about the safety of the ultrasound propagatio
 \end{figure}
 
 The normalized results are slightly less clear than the absolute pressure results. This is because normalizing removes the bias towards larger transducers. These results are perhaps better for informing what not to do. For example, excluding the results for the smallest transducer, we see minima around $f_1 = 0.25$ MHz. In the elastic simulation, we again see that when $f_1 = 0.21$ MHz the RMS pressure within the spinal canal is significantly higher than for other frequencies. This is more pronounced in the elastic simulation than the fluid simulation, where we see another peak at 0.28 MHz. The result for $f_1$ = 0.2-0.21 MHz is the only one where the normalized pressure exceeds 50\% of the maximum pressure in the simulation. 
+
+Mapping out an entire parameter space becomes extremely inefficient for large parameter sets. The calculations for the results shown in \autoref{freq_angle_p} and \autoref{freq_angle_pnorm} took approximately five hours to complete (~100 fluid calculations and 100 elastic calculations). The computation time will scale approximately $O(N_xN_y2M^x)$, where $x$ is the number of parameters and $M$ is the number of tests within each parameter. This calculation is amenable to parallelization, but there are more efficient method of optimizing a transducer than investigating an entire phase space. 
 
 \newpage
 \bibliography{lit}{}
